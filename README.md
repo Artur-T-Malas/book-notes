@@ -3,6 +3,7 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 
 ## TODO
 General
+- [ ] Add data validation and sanitization!
 - [ ] Get book covers and display them
 - [ ] Style the pages
 
@@ -22,8 +23,12 @@ For admin(s):
 - [ ] the books added by users should be marked accordingly (new column "verified" (yes/no) in table?) and be subject to acceptance of administrators
 - [ ] add either a new page or section to view books added by users and accept/deny them
 - [ ] add option to edit and remove books
+- [ ] have a panel to manage users (e.g., delete their accounts, make them admins or take away their admin status)
 
 ## How to run this project?
+### Disclaimer
+>Please pay special attention when running any commands listed in this README file and other places in this repository. <br>Please double check any command which you are not familiar with. <br>Run them at your own responsibility.
+
 ### Dependencies
 Required:
 - Node.js and NPM
@@ -39,6 +44,24 @@ All of project dependencies are listed in the `package.json` file. To install th
 npm i
 ```
 
+### [Optional] Setting up PostgreSQL in a Docker Container
+This section assumes that Docker is already installed and you have a basic understanding of containers.
+1. Pull the **postgres** DOI (Docker Official Image) from Docker Hub.
+```
+docker pull postgres
+```
+2. Create a `dbData` folder in a place of your choice (I'd recommend inside of this project directory. Note: `dbData` is already added to `.gitignore`). This folder is going to be used to persist data from PostgreSQL running on the container.
+3. Run the container with the following command. This command will also map the container's port `5432` to your computer's port `5432`, and persist the DB data in the `<your-dbData-folder-path>` folder. `--rm` flag will remove the container after it's stopped, and `-d` will run it in a detached state.
+```
+docker run --rm -d -p 5432:5432 -v <your-dbData-folder-path>:/var/lib/postgresql/data --name <container-name> -e POSTGRES_PASSWORD=<choose-password-for-postgres> postgres
+```
+
+### Setting up the database
+1. In the SQL Editor of your choosing, connect to default Postgres database `postgres`. The default value for user is also `postgres`, and port is by default `5432`. Use the password which you've chosen when setting PostgreSQL up.
+2. Create a new database called `book_notes`.
+3. Open SQL Script Editor and run commands from `queries.sql` file one by one.
+> NOTE: The default `admin` user created during step 3 will have a password of `test123`
+
 ### `config.js` file
 The provided `config-example.js` file must be copied and renamed to `config.js`. Correct values must be put in place of the placeholders.
 
@@ -49,3 +72,10 @@ npm start
 node index.js
 nodemon index.js
 ```
+
+## Changelog
+### 24.07.2024
+- Started work on the project
+- Add basic functionality for adding and retrieving books from DB and displaying on the frontend
+- Added basic functionality for creating users and separation of admins from "normal" users
+- Created basic tables in SQL
