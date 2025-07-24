@@ -42,7 +42,6 @@ export class DbService {
                 "SELECT * FROM books WHERE verified='true' ORDER BY title ASC;"
             );
             const books = result.rows;
-            console.log('books: ', books);
             return books;
         } catch(err) {
             console.log(err);
@@ -65,7 +64,6 @@ export class DbService {
             ratedBooks.forEach((book) => {
                 book.avg_rating = book.avg_rating ? `${book.avg_rating}/10` : 'Not rated yet';
             });
-            console.log('ratedBooks: ', ratedBooks);
             return ratedBooks;
         } catch (err) {
             console.log(err);

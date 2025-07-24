@@ -7,6 +7,10 @@ CREATE TABLE users (
     is_admin BOOLEAN NOT NULL
 );
 
+-- Create example user called "admin" with password being "test123"
+INSERT INTO users (username, email, password_hash, is_admin)
+VALUES ('admin', 'admin@example.org', 'ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae', 'true');
+
 -- Create table for books
 CREATE TABLE books (
     id SERIAL PRIMARY KEY,
