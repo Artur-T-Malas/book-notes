@@ -1,5 +1,22 @@
 <%- include("partials/header.ejs") %>
     <h1>Book Notes</h1>
+    <div id="login-panel">
+        <div id="auth-buttons">
+            <form id="login" class="login-form" action="/login" method="post">
+                <input type="submit" name="add" value="Login">
+            </form>
+            <form id="register" class="login-form" action="/register" method="post">
+                <input type="submit" name="add" value="Register">
+            </div>
+        </form>
+        <div id="logged-in-panel">
+            <p id="welcome-msg">Welcome, <%= locals?.username %></p>
+            <form id="logout" class="login-form" action="/logout" method="post">
+                <input type="submit" name="add" value="Logout">
+            </form>
+        </div>
+    </div>
+    <h2>Books</h2>
     <div class="books-list">
         <form action="/newBook" method="post">
             <button type="submit">Add new book</button>
@@ -11,4 +28,10 @@
         </div>
         <% }); %>
     </div>
+    <script>
+        // Holding the isLoggedIn variable so index.js can use it
+        window.backendData = {
+            isLoggedIn: <%- locals.isLoggedIn %>
+        };
+    </script>
 <%- include("partials/footer.ejs") %>

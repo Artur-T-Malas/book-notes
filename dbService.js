@@ -3,6 +3,39 @@ export class DbService {
         this.db = dbClient;
     }
 
+    async getUserByUsername(username) {
+        try {
+            const result = await this.db.query(
+                "SELECT * FROM users WHERE username = ($1)",
+                [username]
+            );
+            if (result.rows.length !== 1) {
+                console.warn(`User ${username} not found in Db.`);
+                return null;
+            }
+            let user = result.rows[0];
+            return user;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async createUser(username, email, passwordHash) {
+        try {
+            const result = await this.db.query(
+                "INSERT INTO users (username, email, password_hash) VALUES (($1), ($2), ($3)) RETURNING id, username;",
+                [username, email, passwordHash]
+            )
+            let addedUser = result.rows[0];
+            if (addedUser.username !== username) {
+                console.warn("Error while adding user.");
+            }
+            return addedUser.id;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async getBooks() {
         try {
             const result = await this.db.query(
