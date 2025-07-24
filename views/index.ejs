@@ -1,6 +1,9 @@
 <%- include("partials/header.ejs") %>
     <h1>Book Notes</h1>
     <div class="books-list">
+        <form action="/newBook" method="post">
+            <button type="submit">Add new book</button>
+        </form>
         <% locals?.books.forEach((book) => { %>
         <div class="book-card">
             <h2><%= book.title %></h2>

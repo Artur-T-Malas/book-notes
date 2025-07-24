@@ -12,15 +12,7 @@ db.connect()
     .catch(err => console.log('DB Connection Error: ', err));
 const dbService = new DbService(db);
 
-
 app.use(express.static("public"));
-
-// Example for now
-let books = [
-    {id: 1, title: "The Lord of the Rings", author: "J.R.R. Tolkien"},
-    {id: 2, title: "Star Wars Thrawn", author: "Timothy Zahn"}
-];
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -30,6 +22,18 @@ app.get("/", async (req, res) => {
         'index.ejs',
         { books: books }
     );
+});
+
+app.post("/newBook", (req, res) => {
+    res.render('newBook.ejs');
+});
+
+app.post("/books", async (req, res) =>{
+    // TODO: Validate and sanitize input
+    const title = req.body.title;
+    const author = req.body.author;
+    await dbService.createBook(title, author);
+    res.redirect('/');
 });
 
 
