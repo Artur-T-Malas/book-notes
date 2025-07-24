@@ -17,17 +17,22 @@
         </div>
     </div>
     <h2>Books</h2>
-    <div class="books-list">
+    <div class="private-rated-books-list">
         <form action="/newBook" method="post">
             <button type="submit">Add new book</button>
         </form>
+    </div>
+    <div class="public-books-list">
+        <h2>Highest rated books</h2>
         <% locals?.books.forEach((book) => { %>
         <div class="book-card">
             <h2><%= book.title %></h2>
             <p><%= book.author %></p>
+            <p>Rating: <%= book.avg_rating %></p>
         </div>
         <% }); %>
     </div>
+
     <script>
         // Holding the isLoggedIn variable so index.js can use it
         window.backendData = {

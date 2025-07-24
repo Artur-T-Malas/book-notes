@@ -39,12 +39,35 @@ export class DbService {
     async getBooks() {
         try {
             const result = await this.db.query(
-                "SELECT * FROM books ORDER BY title ASC;"
+                "SELECT * FROM books WHERE verified='true' ORDER BY title ASC;"
             );
             const books = result.rows;
             console.log('books: ', books);
             return books;
         } catch(err) {
+            console.log(err);
+        }
+    }
+
+    async getHighestRatedBooks() {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT b.title, b.author, AVG(ubn.rating) AS avg_rating FROM books b
+                LEFT OUTER JOIN user_book_notes ubn
+                ON b.id = ubn.book_id
+                WHERE b.verified = 'true'
+                GROUP BY b.id
+                ORDER BY avg_rating DESC;
+                `
+            );
+            const ratedBooks = result.rows;
+            ratedBooks.forEach((book) => {
+                book.avg_rating = book.avg_rating ? `${book.avg_rating}/10` : 'Not rated yet';
+            });
+            console.log('ratedBooks: ', ratedBooks);
+            return ratedBooks;
+        } catch (err) {
             console.log(err);
         }
     }

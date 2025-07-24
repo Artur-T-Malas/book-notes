@@ -25,7 +25,7 @@ let currentUser = '';
 let isLoggedIn = false;
 
 app.get("/", async (req, res) => {
-    books = await dbService.getBooks();
+    books = await dbService.getHighestRatedBooks();
     res.render(
         'index.ejs',
         {

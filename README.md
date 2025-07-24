@@ -6,7 +6,9 @@ General
 - [ ] Get book covers and display them
 - [ ] Style the pages
 
-For guest users:
+
+For all users:
+- [V] See a list of highest rated books and their rating (average of all user ratings)
 - [ ] See a list of most commonly rated books and their rating (average of all user ratings)
 
 For logged in users:
@@ -25,7 +27,8 @@ For admin(s):
 ### Dependencies
 Required:
 - Node.js and NPM
-- PostgreSQL server and editor (either pgAdmin or DBeaver)
+- PostgreSQL server or Docker Container with PostgreSQL
+- PostgreSL editor (either pgAdmin or DBeaver)
 
 Recommended:
 - Nodemon

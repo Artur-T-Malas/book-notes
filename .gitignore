@@ -134,3 +134,4 @@ icons
 .DS_Store
 
 config.js
+dbData/
