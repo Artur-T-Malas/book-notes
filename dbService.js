@@ -57,7 +57,7 @@ export class DbService {
                 ON b.id = ubn.book_id
                 WHERE b.verified = 'true'
                 GROUP BY b.id
-                ORDER BY avg_rating DESC;
+                ORDER BY avg_rating DESC, title ASC;
                 `
             );
             const ratedBooks = result.rows;
@@ -73,7 +73,7 @@ export class DbService {
     async createBook(title, author) {
         try {
             const result = await this.db.query(
-                "INSERT INTO books (title, author) VALUES (($1), ($2)) RETURNING title, author",
+                "INSERT INTO books (title, author, verified) VALUES (($1), ($2), 'false') RETURNING title, author",
                 [title, author]
             )
             let addedBook = result.rows[0];
