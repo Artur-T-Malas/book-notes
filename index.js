@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // TODO: Create or use middleware which sanitizes inputs
 
 let books = [];
-let currentUser = '';
+let currentUser = 'None';
 let isLoggedIn = false;
 
 app.get("/", async (req, res) => {
@@ -73,6 +73,10 @@ app.post("/userRegister", async (req, res) => {
 });
 
 app.post("/newBook", (req, res) => {
+    if (!isLoggedIn) {
+        res.sendStatus(401);
+        return;
+    }
     res.render('newBook.ejs');
 });
 

@@ -1,26 +1,25 @@
 <%- include("partials/header.ejs") %>
-    <h1>Book Notes</h1>
-    <div id="login-panel">
-        <div id="auth-buttons">
+    <nav>
+        <h1>Book Notes</h1>
+        <div id="login-panel">
             <form id="login" class="login-form" action="/login" method="post">
-                <input type="submit" name="add" value="Login">
+                <input type="submit" value="Login" id="login-btn" class="button">
             </form>
             <form id="register" class="login-form" action="/register" method="post">
-                <input type="submit" name="add" value="Register">
+                <input type="submit" value="Register" id="register-btn" class="button">
             </div>
         </form>
-        <div id="logged-in-panel">
-            <p id="welcome-msg">Welcome, <%= locals?.username %></p>
-            <form id="logout" class="login-form" action="/logout" method="post">
-                <input type="submit" name="add" value="Logout">
+    </nav>
+    <h2>Your Rated Books</h2>
+    <div class="private-rated-books-list">
+        <div id="user-book-btn-panel" class="button-panel">
+            <form action="/rateBook" method="post">
+                <button type="submit" class="button-primary">Rate Book</button>
+            </form>
+            <form action="/newBook" method="post">
+                <button type="submit" class="button-secondary">Add New Book</button>
             </form>
         </div>
-    </div>
-    <h2>Books</h2>
-    <div class="private-rated-books-list">
-        <form action="/newBook" method="post">
-            <button type="submit">Add new book</button>
-        </form>
     </div>
     <div class="public-books-list">
         <h2>Highest rated books</h2>
@@ -36,7 +35,8 @@
     <script>
         // Holding the isLoggedIn variable so index.js can use it
         window.backendData = {
-            isLoggedIn: <%- locals.isLoggedIn %>
+            isLoggedIn: <%- locals.isLoggedIn %>,
+            username: '<%- locals.username %>'
         };
     </script>
 <%- include("partials/footer.ejs") %>

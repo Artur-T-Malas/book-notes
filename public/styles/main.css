@@ -1,3 +1,19 @@
+body {
+    color: #27374D;
+    background-color: #DDE6ED;
+    margin: 0;
+}
+
+nav {
+    grid-area: navbar;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #9DB2BF;
+}
+
 footer {
     grid-area: footer;
     display: flex;
@@ -24,17 +40,48 @@ h2, h3 {
     margin: 1rem;
 }
 
+button {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: medium;
+}
+
+.button-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.button-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.button-panel {
+    display: flex;
+    flex-direction: row;
+}
+
 .book-card {
     margin: 5px;
     border: 2px solid grey;
     border-radius: 5px;
 }
 
-#auth-buttons {
-    display: flex;
-    flex-direction: row;
+input[type="submit"] {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #526D82;
+    color: #DDE6ED;
+    font-size: medium;
 }
 
 .hidden {
     visibility: hidden;
+}
+
+#login-panel {
+    display: flex;
+    flex-direction: row;
 }
