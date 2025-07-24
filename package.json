@@ -1,0 +1,27 @@
+{
+  "name": "capstone_project_5-book_notes",
+  "version": "1.0.0",
+  "description": "Capstone Project #5 from Dr. Angela Yu's \"The Complete Full-Stack Web Development Bootcamp\"",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Artur-T-Malas/book-notes.git"
+  },
+  "author": "Artur T. Małas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Artur-T-Malas/book-notes/issues"
+  },
+  "homepage": "https://github.com/Artur-T-Malas/book-notes#readme",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  }
+}
