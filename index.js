@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 let books = [];
 let currentUser = 'None';
+let currentUserId = 0;
 let isLoggedIn = false;
 
 app.get("/", async (req, res) => {
@@ -55,8 +56,14 @@ app.post("/userLogin", async (req, res) => {
     console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
-    isLoggedIn = await authService.loginUser(username, password);
+    currentUserId = await authService.loginUser(username, password);
+    if (!currentUserId) {
+        res.redirect('/');
+        return;
+    }
     currentUser = username;
+    isLoggedIn = true;
+    console.log(currentUserId);
     res.redirect('/');
 });
 
@@ -70,6 +77,31 @@ app.post("/userRegister", async (req, res) => {
     isLoggedIn = true;
     currentUser = username;
     res.redirect('/')
+});
+
+app.post("/rateBook", (req, res) => {
+    if (!isLoggedIn) {
+        res.sendStatus(401);
+        return;
+    }
+    res.render(
+        'rateBook.ejs',
+        { books: books }
+    );
+});
+
+app.post("/ratings", async (req, res) => {
+    if (!isLoggedIn) {
+        res.sendStatus(401);
+        return;
+    }
+    // TODO: Sanitize input
+    console.log(req.body);
+    const title = req.body.title;
+    const rating = parseInt(req.body.rating);
+    const notes = req.body.notes;
+    await dbService.addRatingAndNotes(currentUserId, title, rating, notes);
+    res.redirect('/');
 });
 
 app.post("/newBook", (req, res) => {

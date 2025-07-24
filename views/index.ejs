@@ -25,7 +25,7 @@
         <h2>Highest rated books</h2>
         <div id="public-books-list" class="books-list">
             <% locals?.books.forEach((book) => { %>
-            <div class="book-card">
+            <div id="<%= book.id %>" class="book-card">
                 <h3><%= book.title %></h3>
                 <p><%= book.author %></p>
                 <p>Rating: <%= book.avg_rating %></p>

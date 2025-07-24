@@ -8,11 +8,14 @@ export class AuthService {
     async loginUser(username, password) {
         /*
         Tries to log a user in. If provided passwords' hashes match,
-        returns true. Otherwise returns false.
+        returns user's ID. Otherwise returns null.
         */
         const passwordHash = hash(password);
         const user = await this.dbService.getUserByUsername(username);
-        return passwordHash === user.password_hash;
+        if (passwordHash !== user.password_hash) {
+            return null;
+        }
+        return user.id;
     }
 
     async registerUser(username, email, password) {

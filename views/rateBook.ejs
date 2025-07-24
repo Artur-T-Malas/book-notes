@@ -1,0 +1,16 @@
+<%- include("partials/header.ejs") %>
+<h2>Rate Book</h2>
+<div id="book-rating-panel">
+    <form class="rating-form" action="/ratings" method="post">
+        <label for="title">Book Title</label>
+        <input type="text" name="title">
+        <label for="rating">Rating</label>
+        <input type="range" name="rating" min="1" max="10" id="book-rating-range">
+        <p id="rating-preview"></p>
+        <label for="notes">Notes</label>
+        <textarea name="notes" rows="10" cols="50"></textarea>
+        <button type="submit" class="button-primary">Rate</button>
+    </form>
+</div>
+<script type="text/javascript" src="../scripts/rateBook.js"></script>
+<%- include("partials/footer.ejs") %>

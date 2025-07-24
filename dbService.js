@@ -52,7 +52,7 @@ export class DbService {
         try {
             const result = await this.db.query(
                 `
-                SELECT b.title, b.author, AVG(ubn.rating) AS avg_rating FROM books b
+                SELECT b.id, b.title, b.author, COALESCE(AVG(ubn.rating), 0) AS avg_rating FROM books b
                 LEFT OUTER JOIN user_book_notes ubn
                 ON b.id = ubn.book_id
                 WHERE b.verified = 'true'
@@ -62,7 +62,7 @@ export class DbService {
             );
             const ratedBooks = result.rows;
             ratedBooks.forEach((book) => {
-                book.avg_rating = book.avg_rating ? `${book.avg_rating}/10` : 'Not rated yet';
+                book.avg_rating = book.avg_rating ? `${parseInt(book.avg_rating)}/10` : 'Not rated yet';
             });
             return ratedBooks;
         } catch (err) {
@@ -79,6 +79,33 @@ export class DbService {
             let addedBook = result.rows[0];
             if (addedBook.title !== title || addedBook.author !== author) {
                 console.log("Error while adding book.")
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async addRatingAndNotes(userId, bookTitle, rating, notes) {
+        try {
+            let result = await this.db.query(
+                'SELECT id FROM books WHERE title=($1)',
+                [bookTitle]
+            );
+            if (result.rows.length < 1) {
+                throw new Error(`No book with title "${bookTitle}" found in database.`);
+            }
+            const bookId = result.rows[0].id;
+            result = await this.db.query(
+                `
+                INSERT INTO user_book_notes (user_id, book_id, rating, notes)
+                VALUES (($1), ($2), ($3), ($4))
+                RETURNING book_id;
+                `,
+                [userId, bookId, rating, notes]
+            );
+            const addedNotesBookId = result.rows[0].book_id
+            if (bookId !== addedNotesBookId) {
+                console.warn('Failed adding notes to book.');
             }
         } catch (err) {
             console.log(err);
