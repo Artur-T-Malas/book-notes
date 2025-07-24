@@ -47,6 +47,15 @@ button {
     font-size: medium;
 }
 
+input[type="submit"] {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #526D82;
+    color: #DDE6ED;
+    font-size: medium;
+}
+
 .button-primary {
     background-color: #0d6efd;
     color: white;
@@ -62,19 +71,18 @@ button {
     flex-direction: row;
 }
 
+.books-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .book-card {
     margin: 5px;
     border: 2px solid grey;
     border-radius: 5px;
-}
-
-input[type="submit"] {
-    margin: 5px;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: #526D82;
-    color: #DDE6ED;
-    font-size: medium;
+    min-width: 40vw;
 }
 
 .hidden {
