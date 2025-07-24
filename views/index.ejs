@@ -1,0 +1,11 @@
+<%- include("partials/header.ejs") %>
+    <h1>Book Notes</h1>
+    <div class="books-list">
+        <% locals?.books.forEach((book) => { %>
+        <div class="book-card">
+            <h2><%= book.title %></h2>
+            <p><%= book.author %></p>
+        </div>
+        <% }); %>
+    </div>
+<%- include("partials/footer.ejs") %>

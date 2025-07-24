@@ -1,0 +1,25 @@
+footer {
+    grid-area: footer;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+svg {
+    height: 30px;
+    width: 30px;
+}
+
+p {
+    margin: 1rem;
+}
+
+h1 {
+    margin: 0.5rem;
+}
+
+h2, h3 {
+    margin: 1rem;
+}
