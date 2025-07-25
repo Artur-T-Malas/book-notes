@@ -29,6 +29,7 @@ export class DbService {
             let addedUser = result.rows[0];
             if (addedUser.username !== username) {
                 console.warn("Error while adding user.");
+                return null;
             }
             return addedUser.id;
         } catch (err) {

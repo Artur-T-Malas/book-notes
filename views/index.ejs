@@ -2,10 +2,10 @@
     <nav>
         <h1>Book Notes</h1>
         <div id="login-panel">
-            <form id="login" class="login-form" action="/login" method="post">
+            <form id="login" class="login-form" action="/userLogin" method="get">
                 <input type="submit" value="Login" id="login-btn" class="button">
             </form>
-            <form id="register" class="login-form" action="/register" method="post">
+            <form id="register" class="login-form" action="/userRegister" method="get">
                 <input type="submit" value="Register" id="register-btn" class="button">
             </div>
         </form>
@@ -13,10 +13,10 @@
     <div id="user-book-panel" class="private-rated-books-list">
         <h2>Your Rated Books</h2>
         <div id="user-book-btn-panel" class="button-panel">
-            <form action="/rateBook" method="post">
+            <form action="/rateBook" method="get">
                 <button type="submit" class="button-primary">Rate Book</button>
             </form>
-            <form action="/newBook" method="post">
+            <form action="/newBook" method="get">
                 <button type="submit" class="button-secondary">Add New Book</button>
             </form>
         </div>

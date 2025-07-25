@@ -10,6 +10,7 @@ General
 - [ ] Add a link/button to Register on the Login page
 - [ ] Add a link/button to Login on the Register page
 - [ ] Use password type input for passwords
+- [ ] Add either breadcrumbs or "back" links/buttons to Login, Register, Add Book and other subpages
 
 For all users:
 - [X] See a list of highest rated books and their rating (average of all user ratings)

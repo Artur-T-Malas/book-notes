@@ -37,21 +37,21 @@ app.get("/", async (req, res) => {
     );
 });
 
-app.post("/login", (req, res) => {
+app.get("/userLogin", (req, res) => {
     res.render('login.ejs');
 });
 
-app.post("/register", (req, res) => {
+app.get("/userRegister", (req, res) => {
     res.render('register.ejs');
 });
 
-app.post("/logout", (req, res) => {
+app.get("/userLogout", (req, res) => {
     isLoggedIn = false;
     currentUser = '';
     res.redirect('/');
 });
 
-app.post("/userLogin", async (req, res) => {
+app.post("/login", async (req, res) => {
     // TODO: Validate and sanitize input
     console.log(req.body);
     const username = req.body.username;
@@ -67,19 +67,22 @@ app.post("/userLogin", async (req, res) => {
     res.redirect('/');
 });
 
-app.post("/userRegister", async (req, res) => {
+app.post("/register", async (req, res) => {
     // TODO: Validate and sanitize input
     console.log(req.body);
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    await authService.registerUser(username, email, password);
+    currentUserId = await authService.registerUser(username, email, password);
+    if (!currentUserId) {
+        res.status(500).json({ error: 'Registration failed' });
+    }
     isLoggedIn = true;
     currentUser = username;
     res.redirect('/')
 });
 
-app.post("/rateBook", (req, res) => {
+app.get("/rateBook", (req, res) => {
     if (!isLoggedIn) {
         res.sendStatus(401);
         return;
@@ -108,7 +111,7 @@ app.post("/ratings", async (req, res) => {
     res.redirect('/');
 });
 
-app.post("/newBook", (req, res) => {
+app.get("/newBook", (req, res) => {
     if (!isLoggedIn) {
         res.sendStatus(401);
         return;

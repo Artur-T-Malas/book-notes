@@ -1,4 +1,5 @@
 import { createHash } from "crypto";
+import e from "express";
 
 export class AuthService {
     constructor(dbService) {
@@ -25,6 +26,10 @@ export class AuthService {
         */
        const passwordHash = hash(password);
        const newAddedUserId = this.dbService.createUser(username, email, passwordHash);
+       if (!newAddedUserId) {
+        console.warn(`Registration for ${username}, ${email} failed.`);
+        return null;
+       }
        return newAddedUserId;
     }
 }

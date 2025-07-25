@@ -27,8 +27,8 @@ if (isLoggedIn) {
     loginPanel.appendChild(welcomeMsg);
 
     let logoutForm = document.createElement('form');
-    logoutForm.action = '/logout';
-    logoutForm.method = 'post';
+    logoutForm.action = '/userLogout';
+    logoutForm.method = 'get';
     loginPanel.appendChild(logoutForm);
 
     let logoutBtn = document.createElement('input');
@@ -38,5 +38,15 @@ if (isLoggedIn) {
 
 } else {
     // Hide user-specific book panel
-    userBookPanel.remove();
+    /*
+    Hide user-specific book panel and
+    show message that for rating books
+    user must be logged in
+    */
+   let guestUserMsg = document.createElement('p');
+   guestUserMsg.innerHTML = `
+    To rate books please <a href="/userLogin">login</a> or
+    <a href="/userRegister">register</a>.
+   `;
+   userBookPanel.replaceChildren(guestUserMsg);
 }
