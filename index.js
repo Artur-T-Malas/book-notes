@@ -99,6 +99,10 @@ app.post("/ratings", async (req, res) => {
     console.log(req.body);
     const title = req.body.title;
     const rating = parseInt(req.body.rating);
+    if (rating > 10 || rating < 1) {
+        res.status(400).json({ error: 'Invalid input. Rating must be an integer between 1 and 10 (inclusive).' });
+        return;
+    }
     const notes = req.body.notes;
     await dbService.addRatingAndNotes(currentUserId, title, rating, notes);
     res.redirect('/');
