@@ -86,3 +86,10 @@ nodemon index.js
 - Add basic functionality for adding and retrieving books from DB and displaying on the frontend
 - Added basic functionality for creating users and separation of admins from "normal" users
 - Created basic tables in SQL
+
+### 25.07.2024
+- Modify endpoints meant for serving subpages to work on GET requests
+- Standardize endpoint naming
+- Fix auth issue causing invalid registration to work as a user logged in succesfully
+- Fix missing `is_admin` parameter when creating users after registration
+- Minor changes to README.md
