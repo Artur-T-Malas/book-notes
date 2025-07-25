@@ -97,3 +97,5 @@ nodemon index.js
 - Fix auth issue causing invalid registration to work as a user logged in succesfully
 - Fix missing `is_admin` parameter when creating users after registration
 - Minor changes to README.md
+- Invert button visibility logic: show public by default, reveal user-specific when logged in
+- Add warning icon to the login/register warning

@@ -89,6 +89,11 @@ input[type="submit"] {
     visibility: hidden;
 }
 
+.warning {
+    border: 2px solid grey;
+    border-radius: 5px;
+}
+
 #login-panel, #register-panel {
     display: flex;
     flex-direction: row;
