@@ -37,15 +37,15 @@ app.get("/", async (req, res) => {
     );
 });
 
-app.get("/userLogin", (req, res) => {
+app.get("/login", (req, res) => {
     res.render('login.ejs');
 });
 
-app.get("/userRegister", (req, res) => {
+app.get("/register", (req, res) => {
     res.render('register.ejs');
 });
 
-app.get("/userLogout", (req, res) => {
+app.get("/logout", (req, res) => {
     isLoggedIn = false;
     currentUser = '';
     res.redirect('/');

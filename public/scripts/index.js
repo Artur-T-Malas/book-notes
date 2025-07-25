@@ -45,8 +45,8 @@ if (isLoggedIn) {
     */
    let guestUserMsg = document.createElement('p');
    guestUserMsg.innerHTML = `
-    To rate books please <a href="/userLogin">login</a> or
-    <a href="/userRegister">register</a>.
+    To rate books please <a href="/login">login</a> or
+    <a href="/register">register</a>.
    `;
    userBookPanel.replaceChildren(guestUserMsg);
 }
