@@ -23,7 +23,7 @@ export class DbService {
     async createUser(username, email, passwordHash) {
         try {
             const result = await this.db.query(
-                "INSERT INTO users (username, email, password_hash) VALUES (($1), ($2), ($3)) RETURNING id, username;",
+                "INSERT INTO users (username, email, password_hash, is_admin) VALUES (($1), ($2), ($3), 'false') RETURNING id, username;",
                 [username, email, passwordHash]
             )
             let addedUser = result.rows[0];
