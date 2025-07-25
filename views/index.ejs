@@ -11,14 +11,18 @@
         </form>
     </nav>
     <div id="user-book-panel" class="private-rated-books-list">
-        <h2>Your Rated Books</h2>
+        <!-- <h2>Your Rated Books</h2> -->
+        <p id="guest-user-msg">
+            To rate books please <a href="/login">login</a> or
+            <a href="/register">register</a>.
+        </p>
         <div id="user-book-btn-panel" class="button-panel">
-            <form action="/rateBook" method="get">
+            <!-- <form action="/rateBook" method="get">
                 <button type="submit" class="button-primary">Rate Book</button>
             </form>
             <form action="/newBook" method="get">
                 <button type="submit" class="button-secondary">Add New Book</button>
-            </form>
+            </form> -->
         </div>
     </div>
     <div class="public-books-panel">

@@ -7,7 +7,8 @@ General
 - [ ] Get book covers and display them
 - [ ] Style the pages
 - [X] Hide "Add Book" and "Rate Book" buttons for guest users ~~OR redirect to login page~~
-- [ ] Invert the logic of hiding buttons - by default show stuff accessible to everyone, and only if user is logged in, show the user-specific stuff
+- [X] Invert the logic of hiding buttons - by default show stuff accessible to everyone, and only if user is logged in, show the user-specific stuff
+- [ ] ? Make the login section and logged/guest user sections into partial views (.ejs) to get rid of the whole element creation/removal logic from `public/scripts/index.js`
 - [X] Add a link/button to Register on the Login page
 - [X] Add a link/button to Login on the Register page
 - [ ] Use password type input for passwords
@@ -91,7 +92,7 @@ nodemon index.js
 
 ### 25.07.2024
 - Modify endpoints meant for serving subpages to work on GET requests
-- Make the endpoints for login and regiter /login and /register respectively, with GET method for getting the login/register page, and POST method for the actual action
+- Make the endpoints for login and register /login and /register respectively, with GET method for getting the login/register page, and POST method for the actual action
 - Standardize endpoint naming
 - Fix auth issue causing invalid registration to work as a user logged in succesfully
 - Fix missing `is_admin` parameter when creating users after registration

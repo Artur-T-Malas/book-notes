@@ -7,6 +7,7 @@ let loginBtn = document.getElementById('login-btn');
 let registerForm = document.getElementById('register');
 let registerBtn = document.getElementById('register-btn');
 let userBookPanel = document.getElementById('user-book-panel');
+let guestUserMsg = document.getElementById('guest-user-msg');
 
 // if (!isLoggedIn) {
 //     loggedInPanel.classList.add('hidden');
@@ -21,6 +22,7 @@ console.log('isLoggedIn: ', isLoggedIn);
 if (isLoggedIn) {
     registerForm.remove();
     loginForm.remove();
+    guestUserMsg.remove(); // Get rid of the "To rate books..." message
 
     let welcomeMsg = document.createElement('p');
     welcomeMsg.innerText = `Welcome, ${currentUser}`;
@@ -36,17 +38,33 @@ if (isLoggedIn) {
     logoutBtn.value = 'Logout';
     logoutForm.appendChild(logoutBtn);
 
-} else {
-    // Hide user-specific book panel
-    /*
-    Hide user-specific book panel and
-    show message that for rating books
-    user must be logged in
-    */
-   let guestUserMsg = document.createElement('p');
-   guestUserMsg.innerHTML = `
-    To rate books please <a href="/login">login</a> or
-    <a href="/register">register</a>.
-   `;
-   userBookPanel.replaceChildren(guestUserMsg);
+    let yourRatedBooksH2 = document.createElement('h2');
+    yourRatedBooksH2.innerText = 'Your Rated Books';
+    userBookPanel.appendChild(yourRatedBooksH2);
+
+    let userBookBtnPanel = document.createElement('div');
+    userBookBtnPanel.classList.add('button-panel');
+    userBookPanel.appendChild(userBookBtnPanel);
+
+    let rateBookForm = document.createElement('form');
+    rateBookForm.action = '/rateBook';
+    rateBookForm.method = 'get';
+    userBookBtnPanel.appendChild(rateBookForm);
+
+    let rateBookBtn = document.createElement('button');
+    rateBookBtn.type = 'submit';
+    rateBookBtn.classList.add('button-primary');
+    rateBookBtn.innerText = 'Rate Book';
+    rateBookForm.appendChild(rateBookBtn);
+
+    let newBookForm = document.createElement('form');
+    newBookForm.action = '/newBook';
+    newBookForm.method = 'get';
+    userBookBtnPanel.appendChild(newBookForm);
+
+    let newBookBtn = document.createElement('button');
+    newBookBtn.type = 'submit';
+    newBookBtn.classList.add('button-secondary');
+    newBookBtn.innerText = 'New Book';
+    newBookForm.appendChild(newBookBtn);
 }
