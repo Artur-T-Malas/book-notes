@@ -6,7 +6,7 @@ General
 - [ ] Add data validation and sanitization!
 - [ ] Get book covers and display them
 - [ ] Style the pages
-- [ ] Hide "Add Book" and "Rate Book" buttons for guest users OR redirect to login page
+- [X] Hide "Add Book" and "Rate Book" buttons for guest users ~~OR redirect to login page~~
 - [ ] Add a link/button to Register on the Login page
 - [ ] Add a link/button to Login on the Register page
 - [ ] Use password type input for passwords

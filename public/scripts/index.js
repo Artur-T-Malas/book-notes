@@ -6,6 +6,7 @@ let loginForm = document.getElementById('login');
 let loginBtn = document.getElementById('login-btn');
 let registerForm = document.getElementById('register');
 let registerBtn = document.getElementById('register-btn');
+let userBookPanel = document.getElementById('user-book-panel');
 
 // if (!isLoggedIn) {
 //     loggedInPanel.classList.add('hidden');
@@ -36,5 +37,6 @@ if (isLoggedIn) {
     logoutForm.appendChild(logoutBtn);
 
 } else {
-
+    // Hide user-specific book panel
+    userBookPanel.remove();
 }
