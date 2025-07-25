@@ -7,6 +7,7 @@ General
 - [ ] Get book covers and display them
 - [ ] Style the pages
 - [X] Hide "Add Book" and "Rate Book" buttons for guest users ~~OR redirect to login page~~
+- [ ] Invert the logic of hiding buttons - by default show stuff accessible to everyone, and only if user is logged in, show the user-specific stuff
 - [ ] Add a link/button to Register on the Login page
 - [ ] Add a link/button to Login on the Register page
 - [ ] Use password type input for passwords

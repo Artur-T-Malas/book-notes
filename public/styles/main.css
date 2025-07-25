@@ -89,7 +89,7 @@ input[type="submit"] {
     visibility: hidden;
 }
 
-#login-panel {
+#login-panel, #register-panel {
     display: flex;
     flex-direction: row;
 }
