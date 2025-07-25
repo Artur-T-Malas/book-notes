@@ -12,21 +12,21 @@ General
 - [ ] Use password type input for passwords
 
 For all users:
-- [V] See a list of highest rated books and their rating (average of all user ratings)
+- [X] See a list of highest rated books and their rating (average of all user ratings)
 - [ ] See a list of most commonly rated books and their rating (average of all user ratings)
 
 For logged in users:
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
     * [ ] The book title should be choosen either from a filtered drop-down, or be typed in an autocomplete field
-    * [V] Add notes and ratings
+    * [X] Add notes and ratings
     * [ ] Edit
     * [ ] Delete
-- [V] add an option to add books to the general database (but not edit nor remove them)
+- [X] add an option to add books to the general database (but not edit nor remove them)
 - [ ] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
 - [ ] have a notification section (new table "notifications") when added book get's accepted/denied (delete either when read (have a button) or after X time from it's creation date)
 
 For admin(s):
-- [V] the books added by users should be marked accordingly (new column "verified" (yes/no) in table?) and be subject to acceptance of administrators
+- [X] the books added by users should be marked accordingly (new column "verified" (yes/no) in table?) and be subject to acceptance of administrators
 - [ ] add either a new page or section to view books added by users and accept/deny them
 - [ ] add option to edit and remove books
 - [ ] have a panel to manage users (e.g., delete their accounts, make them admins or take away their admin status)
