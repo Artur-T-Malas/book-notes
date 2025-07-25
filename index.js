@@ -76,6 +76,7 @@ app.post("/register", async (req, res) => {
     currentUserId = await authService.registerUser(username, email, password);
     if (!currentUserId) {
         res.status(500).json({ error: 'Registration failed' });
+        return;
     }
     isLoggedIn = true;
     currentUser = username;

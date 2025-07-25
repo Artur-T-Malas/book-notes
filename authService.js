@@ -1,5 +1,4 @@
 import { createHash } from "crypto";
-import e from "express";
 
 export class AuthService {
     constructor(dbService) {
