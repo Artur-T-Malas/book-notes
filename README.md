@@ -12,7 +12,7 @@ General
 - [X] Add a link/button to Register on the Login page
 - [X] Add a link/button to Login on the Register page
 - [X] Use password type input for passwords
-- [ ] Add either breadcrumbs or "back" links/buttons to Login, Register, Add Book and other subpages
+- [X] Add either ~~breadcrumbs or~~ "back" links/buttons to Login, Register, Add Book and other subpages
 - [X] Make the calls to get login/register pages "GET" requests to /login or /register endpoint. But make the actual login/register requests be "POST" to the same endpoints
 
 For all users:
