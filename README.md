@@ -26,6 +26,7 @@ For logged in users:
     * [ ] Edit
     * [ ] Delete
 - [X] add an option to add books to the general database (but not edit nor remove them)
+- [ ] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
 - [ ] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
 - [ ] have a notification section (new table "notifications") when added book get's accepted/denied (delete either when read (have a button) or after X time from it's creation date)
 
@@ -84,13 +85,13 @@ nodemon index.js
 ```
 
 ## Changelog
-### 24.07.2024
+### 24.07.2025
 - Started work on the project
 - Add basic functionality for adding and retrieving books from DB and displaying on the frontend
 - Added basic functionality for creating users and separation of admins from "normal" users
 - Created basic tables in SQL
 
-### 25.07.2024
+### 25.07.2025
 - Modify endpoints meant for serving subpages to work on GET requests
 - Make the endpoints for login and register /login and /register respectively, with GET method for getting the login/register page, and POST method for the actual action
 - Standardize endpoint naming
@@ -99,3 +100,6 @@ nodemon index.js
 - Minor changes to README.md
 - Invert button visibility logic: show public by default, reveal user-specific when logged in
 - Add warning icon to the login/register warning
+
+## 26.07.2025
+- Added "Back to main page" links to login and register subpages
