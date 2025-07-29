@@ -31,6 +31,7 @@ For logged in users:
     * [ ] Make the ratings and notes fields disabled until a book is chosen
     * [ ] Highlight the chosen book
     * [ ] Show the user an alert/warning if he's trying to rate a book again OR disable this (e.g., not show the book in the list of books to rate)
+    * [ ] Show message "Nothing found" if searching didn't find any books
 - [X] add an option to add books to the general database (but not edit nor remove them)
 - [ ] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
 - [ ] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
