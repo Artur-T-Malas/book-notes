@@ -52,3 +52,21 @@ ON b.id = ubn.book_id
 WHERE b.verified = 'true'
 GROUP BY b.id
 ORDER BY times_rated DESC, title ASC;
+
+
+-- Get books user has not yet rated
+SELECT b.id, b.title, b.author, b.verified
+FROM books b
+LEFT JOIN user_book_notes ubn
+  ON b.id = ubn.book_id AND ubn.user_id = '1' -- example value, should be parametrized in code
+WHERE ubn.book_id IS NULL;
+
+
+-- Search books user has not yet rated by partial title
+SELECT b.id, b.title, b.author, b.verified
+FROM books b
+LEFT JOIN user_book_notes ubn
+  ON b.id = ubn.book_id AND ubn.user_id = '1' -- example value, should be parametrized in code
+WHERE ubn.book_id IS NULL
+    AND b.verified = 'true'
+	AND LOWER(b.title) LIKE '%example%'; -- again example value

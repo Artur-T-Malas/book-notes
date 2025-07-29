@@ -124,7 +124,19 @@ app.get("/newBook", (req, res) => {
     res.render('newBook.ejs');
 });
 
-app.post("/books", async (req, res) =>{
+app.get("/books", async (req, res) => {
+    console.log('req.query: ', req.query);
+    // TODO: Add validation and sanitization
+    const titleToSearch = req.query.title; // TODO: Add a condition which checks whether query params are present
+    if (titleToSearch.length < 3) {
+        res.status(400).json({'message': 'Title too short to search by. Mininum 3 characters are required.'});
+        return;
+    }
+    const foundBooks = await dbService.findBooksForUserRating(currentUserId, titleToSearch);
+    res.status(200).json(foundBooks);
+});
+
+app.post("/books", async (req, res) => {
     // TODO: Validate and sanitize input
     const title = req.body.title;
     const author = req.body.author;

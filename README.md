@@ -14,18 +14,23 @@ General
 - [X] Use password type input for passwords
 - [X] Add either ~~breadcrumbs or~~ "back" links/buttons to Login, Register, Add Book and other subpages
 - [X] Make the calls to get login/register pages "GET" requests to /login or /register endpoint. But make the actual login/register requests be "POST" to the same endpoints
+- [X] Refine the `/books` API to be more all-purpose
 
 For all users:
 - [X] See a list of highest rated books and their rating (average of all user ratings)
 - [X] See a list of most commonly rated books and their rating (count of all user ratings)
+- [ ] Have an error message when login fails
 
 For logged in users:
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
-    * [ ] The book title should be choosen either from a filtered drop-down, or be typed in an autocomplete field
+    * [X] The book title ~~should be choosen either from a filtered drop-down, or be typed in an autocomplete field~~ should be first searched and later selected from a list
     * [X] Add notes and ratings
     * [ ] Edit
     * [ ] Delete
-    * [ ] Make sure that a person can have only 1 rating per 1 book
+    * [X] Make sure that a person can have only 1 rating per 1 book
+    * [ ] Make the ratings and notes fields disabled until a book is chosen
+    * [ ] Highlight the chosen book
+    * [ ] Show the user an alert/warning if he's trying to rate a book again OR disable this (e.g., not show the book in the list of books to rate)
 - [X] add an option to add books to the general database (but not edit nor remove them)
 - [ ] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
 - [ ] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
@@ -104,3 +109,14 @@ nodemon index.js
 
 ## 26.07.2025
 - Added "Back to main page" links to login and register subpages
+
+## 29.07.2025
+- Reworked adding ratings
+    * Added "Search" function instead of typing the book title manually
+    * After searching, book can be selected from a list
+    * Made the "Search" button disabled if input is less than 3 characters long
+    * Backend will refuse to search and return `400` if the request has a `title` query parameter with less than 3 characters
+    * Created new API `/books` on the backend, which expects a query parameter `title` (can be whole or partial and is case insensitive) and returns the list of books user can rate
+- Added "Most commonly rated books" section on the home page
+- Limited the number of books in both "Most commonly rated books" and "Highest rated books" sections to 6 each
+- Fix unrated books being treated as having a rating of 0/10

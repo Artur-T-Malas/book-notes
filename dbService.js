@@ -111,6 +111,31 @@ export class DbService {
         }
     }
 
+    async findBooksForUserRating(userId, titleToSearch) {
+        /*
+        Returns books based on user's ID and the partial or whole
+        title to search for.
+        */
+        try {
+            const result = await this.db.query(
+                `
+                SELECT b.id, b.title, b.author, b.verified
+                FROM books b
+                LEFT JOIN user_book_notes ubn
+                ON b.id = ubn.book_id AND ubn.user_id = ($1)
+                WHERE ubn.book_id IS NULL
+                    AND b.verified = 'true'
+                    AND LOWER(b.title) LIKE ($2);
+                `,
+                [userId, `%${titleToSearch.toLowerCase()}%`]
+            )
+            const foundBooks = result.rows;
+            return foundBooks;
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     async addRatingAndNotes(userId, bookTitle, rating, notes) {
         try {
             let result = await this.db.query(
