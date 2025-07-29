@@ -63,7 +63,7 @@ export class DbService {
             );
             const ratedBooks = result.rows;
             ratedBooks.forEach((book) => {
-                book.avg_rating = book.avg_rating ? `${parseInt(book.avg_rating)}/10` : 'Not rated yet';
+                book.avg_rating = book.avg_rating != 0 ? `${parseInt(book.avg_rating)}/10` : 'Not rated yet';
             });
             return ratedBooks;
         } catch (err) {
