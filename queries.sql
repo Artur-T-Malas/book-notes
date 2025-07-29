@@ -43,3 +43,12 @@ LEFT OUTER JOIN user_book_notes ubn
 WHERE b.verified = 'true'
 GROUP BY b.id
 ORDER BY avg_rating DESC;
+
+
+-- Get count of raing per book, sort by most commonly rated
+SELECT b.id, b.title, b.author, COALESCE(COUNT(ubn.rating), 0) AS times_rated FROM books b
+LEFT OUTER JOIN user_book_notes ubn
+ON b.id = ubn.book_id
+WHERE b.verified = 'true'
+GROUP BY b.id
+ORDER BY times_rated DESC, title ASC;

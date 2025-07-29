@@ -27,12 +27,22 @@
     </div>
     <div class="public-books-panel">
         <h2>Highest rated books</h2>
-        <div id="public-books-list" class="books-list">
-            <% locals?.books.forEach((book) => { %>
+        <div id="highest-rated-books-list" class="books-list">
+            <% locals?.highestRatedBooks.forEach((book) => { %>
             <div id="<%= book.id %>" class="book-card">
                 <h3><%= book.title %></h3>
                 <p><%= book.author %></p>
                 <p>Rating: <%= book.avg_rating %></p>
+            </div>
+            <% }); %>
+        </div>
+        <h2>Most commonly rated books</h2>
+        <div id="most-rated-books-list" class="books-list">
+            <% locals?.mostRatedBooks.forEach((book) => { %>
+            <div id="<%= book.id %>" class="book-card">
+                <h3><%= book.title %></h3>
+                <p><%= book.author %></p>
+                <p>Times rated: <%= book.times_rated %></p>
             </div>
             <% }); %>
         </div>

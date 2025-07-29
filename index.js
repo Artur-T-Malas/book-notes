@@ -21,18 +21,22 @@ app.use(express.urlencoded({ extended: true }));
 // TODO: Create or use middleware which sanitizes inputs
 
 let books = [];
+let highestRatedBooks = [];
+let mostRatedBooks = [];
 let currentUser = 'None';
 let currentUserId = 0;
 let isLoggedIn = false;
 
 app.get("/", async (req, res) => {
-    books = await dbService.getHighestRatedBooks();
+    highestRatedBooks = await dbService.getHighestRatedBooks();
+    mostRatedBooks = await dbService.getMostRatedBooks();
     res.render(
         'index.ejs',
         {
             isLoggedIn: isLoggedIn,
             username: currentUser,
-            books: books
+            highestRatedBooks: highestRatedBooks,
+            mostRatedBooks: mostRatedBooks
         }
     );
 });

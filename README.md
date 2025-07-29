@@ -17,7 +17,7 @@ General
 
 For all users:
 - [X] See a list of highest rated books and their rating (average of all user ratings)
-- [ ] See a list of most commonly rated books and their rating (average of all user ratings)
+- [X] See a list of most commonly rated books and their rating (count of all user ratings)
 
 For logged in users:
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
@@ -25,6 +25,7 @@ For logged in users:
     * [X] Add notes and ratings
     * [ ] Edit
     * [ ] Delete
+    * [ ] Make sure that a person can have only 1 rating per 1 book
 - [X] add an option to add books to the general database (but not edit nor remove them)
 - [ ] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
 - [ ] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified

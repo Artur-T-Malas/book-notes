@@ -72,6 +72,30 @@ export class DbService {
         }
     }
 
+    async getMostRatedBooks() {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT b.id, b.title, b.author, COALESCE(COUNT(ubn.rating), 0) AS times_rated FROM books b
+                LEFT OUTER JOIN user_book_notes ubn
+                ON b.id = ubn.book_id
+                WHERE b.verified = 'true'
+                GROUP BY b.id
+                ORDER BY times_rated DESC, title ASC
+                LIMIT 6;
+                `
+            );
+            const mostCommonlyRatedBooks = result.rows;
+            console.log('mostCommonlyRatedBooks: ', mostCommonlyRatedBooks);
+            mostCommonlyRatedBooks.forEach((book) => {
+                book.times_rated = book.times_rated != 0 ? parseInt(book.times_rated) : 'No ratings yet';
+            });
+            return mostCommonlyRatedBooks;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     async createBook(title, author) {
         try {
             const result = await this.db.query(
