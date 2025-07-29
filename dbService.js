@@ -58,7 +58,8 @@ export class DbService {
                 ON b.id = ubn.book_id
                 WHERE b.verified = 'true'
                 GROUP BY b.id
-                ORDER BY avg_rating DESC, title ASC;
+                ORDER BY avg_rating DESC, title ASC
+                LIMIT 6;
                 `
             );
             const ratedBooks = result.rows;
