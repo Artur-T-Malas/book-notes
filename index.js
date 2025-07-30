@@ -140,7 +140,7 @@ app.post("/books", async (req, res) => {
     // TODO: Validate and sanitize input
     const title = req.body.title;
     const author = req.body.author;
-    await dbService.createBook(title, author);
+    await dbService.createBook(title, author, currentUserId);
     res.redirect('/');
 });
 

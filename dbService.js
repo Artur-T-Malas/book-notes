@@ -96,12 +96,14 @@ export class DbService {
         }
     }
 
-    async createBook(title, author) {
+    async createBook(title, author, userId) {
         try {
+            const dateAdded = new Date().toISOString();
+            console.log('dateAdded: ', dateAdded);
             const result = await this.db.query(
-                "INSERT INTO books (title, author, verified) VALUES (($1), ($2), 'false') RETURNING title, author",
-                [title, author]
-            )
+                "INSERT INTO books (title, author, verified, added_by_user_id, date_added) VALUES (($1), ($2), 'false', ($3), ($4)) RETURNING title, author",
+                [title, author, userId, dateAdded]
+            );
             let addedBook = result.rows[0];
             if (addedBook.title !== title || addedBook.author !== author) {
                 console.log("Error while adding book.")
@@ -128,7 +130,7 @@ export class DbService {
                     AND LOWER(b.title) LIKE ($2);
                 `,
                 [userId, `%${titleToSearch.toLowerCase()}%`]
-            )
+            );
             const foundBooks = result.rows;
             return foundBooks;
         } catch (err) {
