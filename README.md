@@ -33,6 +33,7 @@ For logged in users:
     * [ ] Show the user an alert/warning if he's trying to rate a book again OR disable this (e.g., not show the book in the list of books to rate)
     * [ ] Show message "Nothing found" if searching didn't find any books
 - [X] add an option to add books to the general database (but not edit nor remove them)
+- [ ] automatically add a timestamp when a book is added by the user
 - [ ] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
 - [ ] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
 - [ ] have a notification section (new table "notifications") when added book get's accepted/denied (delete either when read (have a button) or after X time from it's creation date)

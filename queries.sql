@@ -18,8 +18,12 @@ CREATE TABLE books (
     author VARCHAR(200) NOT NULL,
     verified BOOLEAN NOT NULL,
     added_by_user_id INTEGER REFERENCES users(id),
+    date_added TIMESTAMP WITH TIME ZONE,
     UNIQUE(title, author)
 );
+
+-- Add date_added column to books table
+ALTER TABLE books ADD date_added TIMESTAMP WITH TIME ZONE;
 
 -- Insert example books into the table
 INSERT INTO books (title, author, verified) VALUES
@@ -70,3 +74,20 @@ LEFT JOIN user_book_notes ubn
 WHERE ubn.book_id IS NULL
     AND b.verified = 'true'
 	AND LOWER(b.title) LIKE '%example%'; -- again example value
+
+
+-- Get unverified user's unverified books (for the user panel)
+SELECT b.id, b.title, b.author, b.date_added
+FROM books b
+WHERE added_by_user_id = '123' -- example value of user.id
+    AND verified = 'false'
+ORDER BY b.date_added DESC, b.title ASC;
+
+
+-- Get unverified books for the admin to accept/decline (for admin panel)
+SELECT b.id, b.title, b.author, u.username AS added_by, b.date_added
+FROM books b
+INNER JOIN users u
+    ON b.added_by_user_id = u.id
+WHERE verified = 'false'
+ORDER BY b.date_added DESC, b.title ASC;
