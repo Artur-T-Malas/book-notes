@@ -29,8 +29,8 @@ if (isLoggedIn) {
     loginPanel.appendChild(welcomeMsg);
 
     let logoutForm = document.createElement('form');
-    logoutForm.action = '/userLogout';
-    logoutForm.method = 'get';
+    logoutForm.action = '/logout';
+    logoutForm.method = 'post';
     loginPanel.appendChild(logoutForm);
 
     let logoutBtn = document.createElement('input');

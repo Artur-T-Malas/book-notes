@@ -49,7 +49,7 @@ app.get("/register", (req, res) => {
     res.render('register.ejs');
 });
 
-app.get("/logout", (req, res) => {
+app.post("/logout", (req, res) => {
     isLoggedIn = false;
     currentUser = '';
     res.redirect('/');

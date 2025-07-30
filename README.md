@@ -125,3 +125,4 @@ nodemon index.js
 
 ## 30.07.205
 - Automatically add timestamp and user's ID when creating books
+- Made the logout a POST request to `/logout`
