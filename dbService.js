@@ -138,6 +138,26 @@ export class DbService {
         }
     }
 
+    async getUserUnverifiedBooks(userId) {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT b.id, b.title, b.author, b.date_added
+                FROM books b
+                WHERE added_by_user_id = ($1)
+                    AND verified = 'false'
+                ORDER BY b.date_added DESC, b.title ASC;
+                `,
+                [userId]
+            )
+            const userUnverifiedBooks = result.rows;
+            console.log('userUnverifiedBooks: ', userUnverifiedBooks); // DEBUG
+            return userUnverifiedBooks;
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     async addRatingAndNotes(userId, bookTitle, rating, notes) {
         try {
             let result = await this.db.query(

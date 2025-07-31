@@ -124,15 +124,44 @@ app.get("/newBook", (req, res) => {
     res.render('newBook.ejs');
 });
 
+
+// API
 app.get("/books", async (req, res) => {
-    console.log('req.query: ', req.query);
-    // TODO: Add validation and sanitization
-    const titleToSearch = req.query.title; // TODO: Add a condition which checks whether query params are present
-    if (titleToSearch.length < 3) {
-        res.status(400).json({'message': 'Title too short to search by. Mininum 3 characters are required.'});
+    console.log('req.query: ', req.query, typeof req.query);
+    if (Object.keys(req.query).length < 1) {
+        res.status(403).json({ 'message': 'Retrieving all books is not allowed at this point' });
         return;
     }
-    const foundBooks = await dbService.findBooksForUserRating(currentUserId, titleToSearch);
+    // TODO: Add validation and sanitization
+    let foundBooks = [];
+    if (req.query.title) { // Expects query param: ?title=<title>
+        const titleToSearch = req.query.title; // TODO: Add a condition which checks whether query params are present
+        if (titleToSearch.length < 3) {
+            res.status(400).json({'message': 'Title too short to search by. Mininum 3 characters are required.'});
+            return;
+        }
+        foundBooks = await dbService.findBooksForUserRating(currentUserId, titleToSearch);
+    } else if (
+        req.query.verified == 'false' || req.query.username // Expects query params: ?verified=false&username=<username>
+    ) {
+        // Check if user exists
+        const username = req.query.username;
+        const foundUser = await dbService.getUserByUsername(username);
+        const doesUserExist = Boolean(foundUser);
+        if (!doesUserExist) {
+            res.status(404).json({ 'message': `User ${username} does not exist.` });
+            return;
+        }
+
+        // Check if current user is allowed to get unverified books for the provided user
+        if (username != currentUser) { // TODO: Also check if the user is NOT an admin
+            res.status(403).json({ 'message': 'You can only get unverified books created by yourself' });
+            return;
+        }
+
+        foundBooks = await dbService.getUserUnverifiedBooks(foundUser.id);
+
+    }
     res.status(200).json(foundBooks);
 });
 

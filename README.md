@@ -6,19 +6,34 @@ General
 - [ ] Add data validation and sanitization!
 - [ ] Get book covers and display them
 - [ ] Style the pages
+- [ ] Add a search bar to at least the main page (or all pages)
+    * if there are no results:
+        - for logged in users -> show the option to add a book
+        - for guests -> show a message with login link e.g., "login/register to add the missing book"
 - [X] Hide "Add Book" and "Rate Book" buttons for guest users ~~OR redirect to login page~~
 - [X] Invert the logic of hiding buttons - by default show stuff accessible to everyone, and only if user is logged in, show the user-specific stuff
-- [ ] ? Make the login section and logged/guest user sections into partial views (.ejs) to get rid of the whole element creation/removal logic from `public/scripts/index.js`
+- [ ] ? Make the login section and logged/guest user sections into partial views (.ejs) 
+    * to get rid of the whole element creation/removal logic from `public/scripts/index.js`
+    * to have the login/logout section always visible
 - [X] Add a link/button to Register on the Login page
 - [X] Add a link/button to Login on the Register page
 - [X] Use password type input for passwords
 - [X] Add either ~~breadcrumbs or~~ "back" links/buttons to Login, Register, Add Book and other subpages
 - [X] Make the calls to get login/register pages "GET" requests to /login or /register endpoint. But make the actual login/register requests be "POST" to the same endpoints
 - [X] Refine the `/books` API to be more all-purpose
+- [ ] Document the `/books` API
+- [ ] Have a limit of the queue of unverified books (e.g., 200 total and 10 per user), don't accept more when the limits are reached
+- [ ] add a handler of unmatched rotues and show (enother `.ejs` template) a `404 Not Found` page
 
 For all users:
 - [X] See a list of highest rated books and their rating (average of all user ratings)
 - [X] See a list of most commonly rated books and their rating (count of all user ratings)
+- [ ] For each book have a notes/rating section
+    * separate `.ejs` template for this usecase
+    * access it by:
+        - clicking on a book in most commonly rated / highest rated list
+        - clicking a result from searching on the main page
+    * have it on endpoint like `/books/<bookId>`
 - [ ] Have an error message when login fails
 
 For logged in users:
@@ -33,6 +48,8 @@ For logged in users:
     * [ ] Show the user an alert/warning if he's trying to rate a book again OR disable this (e.g., not show the book in the list of books to rate)
     * [ ] Show message "Nothing found" if searching didn't find any books
 - [X] add an option to add books to the general database (but not edit nor remove them)
+- [ ] don't allow adding duplicate books
+    * maybe show information about already similar titles
 - [X] automatically add a timestamp when a book is added by the user
 - [ ] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
 - [ ] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
@@ -123,6 +140,10 @@ nodemon index.js
 - Limited the number of books in both "Most commonly rated books" and "Highest rated books" sections to 6 each
 - Fix unrated books being treated as having a rating of 0/10
 
-## 30.07.205
+## 30.07.2025
 - Automatically add timestamp and user's ID when creating books
+- Modify `/books` API to add returning of unverified books for the current user based on the request's query params
 - Made the logout a POST request to `/logout`
+
+## 31.07.2025
+- Add searching for users' unverified books to `/books` API
