@@ -2,28 +2,51 @@
     <nav>
         <h1>Book Notes</h1>
         <div id="login-panel">
-            <form id="login" class="login-form" action="/login" method="get">
-                <input type="submit" value="Login" id="login-btn" class="button">
-            </form>
-            <form id="register" class="login-form" action="/register" method="get">
-                <input type="submit" value="Register" id="register-btn" class="button">
-            </div>
-        </form>
-    </nav>
-    <div id="user-book-panel" class="private-rated-books-list">
-        <!-- <h2>Your Rated Books</h2> -->
-        <p id="guest-user-msg">
-            To rate books please <a href="/login">login</a> or
-            <a href="/register">register</a>.
-        </p>
-        <div id="user-book-btn-panel" class="button-panel">
-            <!-- <form action="/rateBook" method="get">
-                <button type="submit" class="button-primary">Rate Book</button>
-            </form>
-            <form action="/newBook" method="get">
-                <button type="submit" class="button-secondary">Add New Book</button>
-            </form> -->
+            <% if (locals.isLoggedIn && locals.currrentUser) { %>
+                <p>Welcome <%= locals.currrentUser %></p>
+                <form id="login" action="/logout" method="post">
+                    <input type="submit" value="Logut" id="logout-btn" class="button">
+                </form>
+            <% } else { %>
+                <form id="login" class="login-form" action="/login" method="get">
+                    <input type="submit" value="Login" id="login-btn" class="button">
+                </form>
+                <form id="register" class="login-form" action="/register" method="get">
+                    <input type="submit" value="Register" id="register-btn" class="button">
+                </form>
+            <% } %>
+             
         </div>
+    </nav>
+    <div id="user-book-panel">
+        <% if (locals.isLoggedIn) { %>
+            <% if (locals.userUnverifiedBooks.length > 0) { %>
+                <h2>Your Added Books awaiting verification</h2>
+                <div id="user-unverified-books-list" class="books-list">
+                    <% locals.userUnverifiedBooks.forEach((book) => { %>
+                        <div id="<%= book.id %>" class="book-card">
+                            <h3><%= book.title %></h3>
+                            <p><%= book.author %></p>
+                            <p>Awaiting verification</p>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+            <h2>Your Rated Books</h2>
+            <div id="user-book-btn-panel" class="button-panel">
+                <form action="/rateBook" method="get">
+                    <button type="submit" class="button-primary">Rate Book</button>
+                </form>
+                <form action="/newBook" method="get">
+                    <button type="submit" class="button-secondary">Add New Book</button>
+                </form>
+            </div>
+        <% } else if (!locals.isLoggedIn) { %>
+            <p id="guest-user-msg">
+                To rate books please <a href="/login">login</a> or
+                <a href="/register">register</a>.
+            </p>
+        <% } %>
     </div>
     <div class="public-books-panel">
         <h2>Highest rated books</h2>

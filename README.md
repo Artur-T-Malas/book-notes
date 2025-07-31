@@ -12,7 +12,8 @@ General
         - for guests -> show a message with login link e.g., "login/register to add the missing book"
 - [X] Hide "Add Book" and "Rate Book" buttons for guest users ~~OR redirect to login page~~
 - [X] Invert the logic of hiding buttons - by default show stuff accessible to everyone, and only if user is logged in, show the user-specific stuff
-- [ ] ? Make the login section and logged/guest user sections into partial views (.ejs) 
+- [ ] Rework login/logout section to use EJS template instead of dynamic changes
+- [ ] Make the login section and logged/guest user sections into partial views (.ejs) 
     * to get rid of the whole element creation/removal logic from `public/scripts/index.js`
     * to have the login/logout section always visible
 - [X] Add a link/button to Register on the Login page
@@ -52,7 +53,8 @@ For logged in users:
     * maybe show information about already similar titles
 - [X] automatically add a timestamp when a book is added by the user
 - [ ] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
-- [ ] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
+- [X] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
+- [ ] Add an option to delete the unverified by book by the user who added it
 - [ ] have a notification section (new table "notifications") when added book get's accepted/denied (delete either when read (have a button) or after X time from it's creation date)
 
 For admin(s):
@@ -147,3 +149,5 @@ nodemon index.js
 
 ## 31.07.2025
 - Add searching for users' unverified books to `/books` API
+- Add a section for logged in users to see the unverified books they've added
+- Reworked the `index.ejs` and `public/scripts/index.js` to rely more on the EJS templates rather than dynamic DOM manipulation

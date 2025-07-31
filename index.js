@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 let books = [];
 let highestRatedBooks = [];
 let mostRatedBooks = [];
+let userUnverifiedBooks = [];
 let currentUser = 'None';
 let currentUserId = 0;
 let isLoggedIn = false;
@@ -30,13 +31,17 @@ let isLoggedIn = false;
 app.get("/", async (req, res) => {
     highestRatedBooks = await dbService.getHighestRatedBooks();
     mostRatedBooks = await dbService.getMostRatedBooks();
+    if (isLoggedIn && currentUserId != 0) {
+        userUnverifiedBooks = await dbService.getUserUnverifiedBooks(currentUserId);
+    }
     res.render(
         'index.ejs',
         {
             isLoggedIn: isLoggedIn,
             username: currentUser,
             highestRatedBooks: highestRatedBooks,
-            mostRatedBooks: mostRatedBooks
+            mostRatedBooks: mostRatedBooks,
+            userUnverifiedBooks: userUnverifiedBooks
         }
     );
 });
