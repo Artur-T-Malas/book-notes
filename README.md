@@ -36,6 +36,7 @@ For all users:
         - clicking a result from searching on the main page
     * have it on endpoint like `/books/<bookId>`
 - [ ] Have an error message when login fails
+- [ ] Rework adding book ratings to work on `book.id` instead of `book.title`
 
 For logged in users:
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
@@ -151,3 +152,7 @@ nodemon index.js
 - Add searching for users' unverified books to `/books` API
 - Add a section for logged in users to see the unverified books they've added
 - Reworked the `index.ejs` and `public/scripts/index.js` to rely more on the EJS templates rather than dynamic DOM manipulation
+
+## 01.08.2025
+- Alter `user_book_notes` to contain rating/note creation and modification dates
+- Automatically add creation and modification dates to newly added book ratings and notes

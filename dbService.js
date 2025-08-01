@@ -159,6 +159,8 @@ export class DbService {
     }
 
     async addRatingAndNotes(userId, bookTitle, rating, notes) {
+        const dateAdded = new Date().toISOString();
+        const dateModified = dateAdded;
         try {
             let result = await this.db.query(
                 'SELECT id FROM books WHERE title=($1)',
@@ -170,11 +172,11 @@ export class DbService {
             const bookId = result.rows[0].id;
             result = await this.db.query(
                 `
-                INSERT INTO user_book_notes (user_id, book_id, rating, notes)
-                VALUES (($1), ($2), ($3), ($4))
+                INSERT INTO user_book_notes (user_id, book_id, rating, notes, date_added, date_modified)
+                VALUES (($1), ($2), ($3), ($4), ($5), ($6))
                 RETURNING book_id;
                 `,
-                [userId, bookId, rating, notes]
+                [userId, bookId, rating, notes, dateAdded, dateModified]
             );
             const addedNotesBookId = result.rows[0].book_id
             if (bookId !== addedNotesBookId) {
