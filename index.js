@@ -65,7 +65,6 @@ app.post("/logout", (req, res) => {
 
 app.post("/login", async (req, res) => {
     // TODO: Validate and sanitize input
-    console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
     currentUserId = await authService.loginUser(username, password);

@@ -2,8 +2,8 @@
     <nav>
         <h1>Book Notes</h1>
         <div id="login-panel">
-            <% if (locals.isLoggedIn && locals.currrentUser) { %>
-                <p>Welcome <%= locals.currrentUser %></p>
+            <% if (locals.isLoggedIn && locals.username) { %>
+                <p>Welcome, <%= locals.username %></p>
                 <form id="login" action="/logout" method="post">
                     <input type="submit" value="Logut" id="logout-btn" class="button">
                 </form>
@@ -15,7 +15,6 @@
                     <input type="submit" value="Register" id="register-btn" class="button">
                 </form>
             <% } %>
-             
         </div>
     </nav>
     <div id="user-book-panel">
@@ -32,7 +31,7 @@
                     <% }); %>
                 </div>
             <% } %>
-            <h2>Your Rated Books</h2>
+            <h2>Your rated books</h2>
             <div id="user-book-btn-panel" class="button-panel">
                 <form action="/rateBook" method="get">
                     <button type="submit" class="button-primary">Rate Book</button>
@@ -48,8 +47,8 @@
                             <h3><%= ratedBook.title %></h3>
                             <p><%= ratedBook.author %></p>
                             <p>
-                                Your Rating: <%= ratedBook.rating %><br>
-                                Your Notes: <%= ratedBook.notes %><br>
+                                Your Rating: <strong><%= ratedBook.rating %></strong><br>
+                                Your Notes: <br><%= ratedBook.notes %><br><br>
                                 Last modified: <%= ratedBook.date_modified %><br>
                             </p>
                         </div>

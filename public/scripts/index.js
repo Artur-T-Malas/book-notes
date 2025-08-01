@@ -8,32 +8,3 @@ let registerForm = document.getElementById('register');
 let registerBtn = document.getElementById('register-btn');
 let userBookPanel = document.getElementById('user-book-panel');
 let guestUserMsg = document.getElementById('guest-user-msg');
-
-// if (!isLoggedIn) {
-//     loggedInPanel.classList.add('hidden');
-// } else {
-//     loginPanel.classList.add('hidden');
-//     let inputs = loginPanel.querySelectorAll('input');
-//     for (let i = 0; i < inputs.length; i++) {
-//         inputs[i].disabled = true;
-//     }
-// }
-console.log('isLoggedIn: ', isLoggedIn);
-if (isLoggedIn) {
-    registerForm.remove();
-    loginForm.remove();
-
-    let welcomeMsg = document.createElement('p');
-    welcomeMsg.innerText = `Welcome, ${currentUser}`;
-    loginPanel.appendChild(welcomeMsg);
-
-    let logoutForm = document.createElement('form');
-    logoutForm.action = '/logout';
-    logoutForm.method = 'post';
-    loginPanel.appendChild(logoutForm);
-
-    let logoutBtn = document.createElement('input');
-    logoutBtn.type = 'submit';
-    logoutBtn.value = 'Logout';
-    logoutForm.appendChild(logoutBtn);
-}
