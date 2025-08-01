@@ -1,24 +1,26 @@
 <%- include("partials/header.ejs") %>
-<h2>Rate Book</h2>
-<div id="book-finding-panel" class="book-finder">
-    <label for="book-search-title-input">Book Title</label>
-    <input type="text" name="title" id="book-search-title-input">
-    <button type="button" id="books-search-btn" disabled>Search</button>
-    <div id="found-books-list">
-        <!-- Will be dynamically populated -->
+<main>
+    <h2>Rate Book</h2>
+    <div id="book-finding-panel" class="book-finder">
+        <label for="book-search-title-input">Book Title</label>
+        <input type="text" name="title" id="book-search-title-input">
+        <button type="button" id="books-search-btn" disabled>Search</button>
+        <div id="found-books-list">
+            <!-- Will be dynamically populated -->
+        </div>
     </div>
-</div>
-<div id="book-rating-panel">
-    <form class="rating-form" action="/ratings" method="post">
-        <input type="hidden" name="id" id="book-id-input">
-        <input type="hidden" name="title" id="book-title-input">
-        <label for="book-rating-range">Rating</label>
-        <input type="range" name="rating" min="1" max="10" value="5" id="book-rating-range">
-        <p id="rating-preview">5</p>
-        <label for="notes">Notes</label>
-        <textarea name="notes" rows="10" cols="50" id="notes"></textarea>
-        <button type="submit" class="button-primary">Rate</button>
-    </form>
-</div>
+    <div id="book-rating-panel">
+        <form class="rating-form" action="/ratings" method="post">
+            <input type="hidden" name="id" id="book-id-input">
+            <input type="hidden" name="title" id="book-title-input">
+            <label for="book-rating-range">Rating</label>
+            <input type="range" name="rating" min="1" max="10" value="5" id="book-rating-range">
+            <p id="rating-preview">5</p>
+            <label for="notes">Notes</label>
+            <textarea name="notes" rows="10" cols="50" id="notes"></textarea>
+            <button type="submit" class="button-primary">Rate</button>
+        </form>
+    </div>
+</main>
 <script type="text/javascript" src="../scripts/rateBook.js"></script>
 <%- include("partials/footer.ejs") %>
