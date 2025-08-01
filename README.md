@@ -10,9 +10,12 @@ General
     * if there are no results:
         - for logged in users -> show the option to add a book
         - for guests -> show a message with login link e.g., "login/register to add the missing book"
+    * if there are result generate a new view only with the found books
+        - for logged in users -> have a button on each result to rate it IF not yet rated
+        - for guests -> simply show the books along with their avg rating and rating count
 - [X] Hide "Add Book" and "Rate Book" buttons for guest users ~~OR redirect to login page~~
 - [X] Invert the logic of hiding buttons - by default show stuff accessible to everyone, and only if user is logged in, show the user-specific stuff
-- [ ] Rework login/logout section to use EJS template instead of dynamic changes
+- [X] Rework login/logout section to use EJS template instead of dynamic changes
 - [ ] Make the login section and logged/guest user sections into partial views (.ejs) 
     * to get rid of the whole element creation/removal logic from `public/scripts/index.js`
     * to have the login/logout section always visible
@@ -29,7 +32,7 @@ General
 For all users:
 - [X] See a list of highest rated books and their rating (average of all user ratings)
 - [X] See a list of most commonly rated books and their rating (count of all user ratings)
-- [ ] For each book have a notes/rating section
+- [ ] When clicking a book, have a notes/rating section
     * separate `.ejs` template for this usecase
     * access it by:
         - clicking on a book in most commonly rated / highest rated list
@@ -157,3 +160,5 @@ nodemon index.js
 - Alter `user_book_notes` to contain rating/note creation and modification dates
 - Automatically add creation and modification dates to newly added book ratings and notes
 - Show the users' rated books in the appropriate section
+- Add links back to main page and "Cancel" buttons to book adding and rating subpages
+- Create a DbService method to get a book by its id
