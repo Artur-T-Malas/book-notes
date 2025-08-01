@@ -162,3 +162,4 @@ nodemon index.js
 - Show the users' rated books in the appropriate section
 - Add links back to main page and "Cancel" buttons to book adding and rating subpages
 - Create a DbService method to get a book by its id
+- Create a DbService method to get a book by the rating id

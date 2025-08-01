@@ -57,7 +57,25 @@ export class DbService {
             );
             const book = result.rows[0];
             console.log('book: ', book);
-            return book
+            return book;
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    async getBookFromRatingId(id) {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT * FROM books b
+                INNER JOIN user_book_notes ubn
+                    ON b.id = ubn.book_id
+                WHERE ubn.id = ($1);
+                `
+            )
+            const book = result.rows[0];
+            console.log('book: ', book);
+            return book;
         } catch (err) {
             console.error(err);
         }
