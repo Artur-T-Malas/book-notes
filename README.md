@@ -156,3 +156,4 @@ nodemon index.js
 ## 01.08.2025
 - Alter `user_book_notes` to contain rating/note creation and modification dates
 - Automatically add creation and modification dates to newly added book ratings and notes
+- Show the users' rated books in the appropriate section

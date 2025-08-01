@@ -86,7 +86,6 @@ export class DbService {
                 `
             );
             const mostCommonlyRatedBooks = result.rows;
-            console.log('mostCommonlyRatedBooks: ', mostCommonlyRatedBooks);
             mostCommonlyRatedBooks.forEach((book) => {
                 book.times_rated = book.times_rated != 0 ? parseInt(book.times_rated) : 'No ratings yet';
             });
@@ -99,7 +98,6 @@ export class DbService {
     async createBook(title, author, userId) {
         try {
             const dateAdded = new Date().toISOString();
-            console.log('dateAdded: ', dateAdded);
             const result = await this.db.query(
                 "INSERT INTO books (title, author, verified, added_by_user_id, date_added) VALUES (($1), ($2), 'false', ($3), ($4)) RETURNING title, author",
                 [title, author, userId, dateAdded]
@@ -108,6 +106,27 @@ export class DbService {
             if (addedBook.title !== title || addedBook.author !== author) {
                 console.log("Error while adding book.")
             }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getUserRatedBooks(userId) {
+        try {
+            const dateAdded = new Date().toISOString();
+            const dateModified = dateAdded;
+            const result = await this.db.query(
+                `
+                SELECT b.title, b.author, ubn.rating, ubn.notes, ubn.date_added, ubn.date_modified
+                FROM books b
+                INNER JOIN user_book_notes ubn
+                    ON b.id = ubn.book_id
+                WHERE ubn.user_id = ($1)
+                `,
+                [userId]
+            );
+            const userRatedBooks = result.rows;
+            return userRatedBooks;
         } catch (err) {
             console.log(err);
         }
@@ -151,7 +170,6 @@ export class DbService {
                 [userId]
             )
             const userUnverifiedBooks = result.rows;
-            console.log('userUnverifiedBooks: ', userUnverifiedBooks); // DEBUG
             return userUnverifiedBooks;
         } catch (err) {
             console.error(err);

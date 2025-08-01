@@ -82,7 +82,8 @@ input[type="submit"] {
     margin: 5px;
     border: 2px solid grey;
     border-radius: 5px;
-    min-width: 40vw;
+    min-width: 30vw;
+    max-width: 30vw;
 }
 
 .hidden {

@@ -24,7 +24,7 @@
                 <h2>Your Added Books awaiting verification</h2>
                 <div id="user-unverified-books-list" class="books-list">
                     <% locals.userUnverifiedBooks.forEach((book) => { %>
-                        <div id="<%= book.id %>" class="book-card">
+                        <div id="user-unverified-book-<%= book.id %>" class="book-card">
                             <h3><%= book.title %></h3>
                             <p><%= book.author %></p>
                             <p>Awaiting verification</p>
@@ -41,7 +41,24 @@
                     <button type="submit" class="button-secondary">Add New Book</button>
                 </form>
             </div>
-        <% } else if (!locals.isLoggedIn) { %>
+                <% if (locals.userRatedBooks.length > 0) { %>
+                    <div class="books-list">
+                    <% locals.userRatedBooks.forEach((ratedBook) => { %>
+                        <div id="user-rated-book-<%= ratedBook.id %>" class="book-card">
+                            <h3><%= ratedBook.title %></h3>
+                            <p><%= ratedBook.author %></p>
+                            <p>
+                                Your Rating: <%= ratedBook.rating %><br>
+                                Your Notes: <%= ratedBook.notes %><br>
+                                Last modified: <%= ratedBook.date_modified %><br>
+                            </p>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>You haven't rated any book yet.</p>
+                <% } %>
+            </div>
+        <% } else { %>
             <p id="guest-user-msg">
                 To rate books please <a href="/login">login</a> or
                 <a href="/register">register</a>.
@@ -52,7 +69,7 @@
         <h2>Highest rated books</h2>
         <div id="highest-rated-books-list" class="books-list">
             <% locals?.highestRatedBooks.forEach((book) => { %>
-            <div id="<%= book.id %>" class="book-card">
+            <div id="highest-rated-book-<%= book.id %>" class="book-card">
                 <h3><%= book.title %></h3>
                 <p><%= book.author %></p>
                 <p>Rating: <%= book.avg_rating %></p>
@@ -62,7 +79,7 @@
         <h2>Most commonly rated books</h2>
         <div id="most-rated-books-list" class="books-list">
             <% locals?.mostRatedBooks.forEach((book) => { %>
-            <div id="<%= book.id %>" class="book-card">
+            <div id="common-rated-book-<%= book.id %>" class="book-card">
                 <h3><%= book.title %></h3>
                 <p><%= book.author %></p>
                 <p>Times rated: <%= book.times_rated %></p>

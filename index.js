@@ -24,6 +24,7 @@ let books = [];
 let highestRatedBooks = [];
 let mostRatedBooks = [];
 let userUnverifiedBooks = [];
+let userRatedBooks = []; // TODO: Make the query etc.
 let currentUser = 'None';
 let currentUserId = 0;
 let isLoggedIn = false;
@@ -33,6 +34,7 @@ app.get("/", async (req, res) => {
     mostRatedBooks = await dbService.getMostRatedBooks();
     if (isLoggedIn && currentUserId != 0) {
         userUnverifiedBooks = await dbService.getUserUnverifiedBooks(currentUserId);
+        userRatedBooks = await dbService.getUserRatedBooks(currentUserId);
     }
     res.render(
         'index.ejs',
@@ -41,7 +43,8 @@ app.get("/", async (req, res) => {
             username: currentUser,
             highestRatedBooks: highestRatedBooks,
             mostRatedBooks: mostRatedBooks,
-            userUnverifiedBooks: userUnverifiedBooks
+            userUnverifiedBooks: userUnverifiedBooks,
+            userRatedBooks: userRatedBooks
         }
     );
 });
