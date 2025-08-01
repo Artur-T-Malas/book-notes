@@ -37,8 +37,17 @@ CREATE TABLE user_book_notes (
     book_id INTEGER REFERENCES books(id) NOT NULL,
     rating INTEGER,
     notes TEXT,
+    date_added TIMESTAMP WITH TIME ZONE,
+    date_modified TIMESTAMP WITH TIME ZONE
     UNIQUE(user_id, book_id)
 );
+
+-- Update user_book_notes with timestamps
+ALTER TABLE user_book_notes
+ADD date_added TIMESTAMP WITH TIME ZONE;
+
+ALTER TABLE user_book_notes
+ADD date_modified TIMESTAMP WITH TIME ZONE;
 
 -- Get average ratings of verified books, sorted by highest rated
 SELECT b.title, b.author, AVG(ubn.rating) AS avg_rating FROM books b
@@ -91,3 +100,11 @@ INNER JOIN users u
     ON b.added_by_user_id = u.id
 WHERE verified = 'false'
 ORDER BY b.date_added DESC, b.title ASC;
+
+
+-- Get user's rated books
+SELECT b.title, b.author, ubn.rating, ubn.notes, ubn.date_added, ubn.date_modified
+FROM books b
+INNER JOIN user_book_notes ubn
+	ON b.id = ubn.book_id 
+WHERE ubn.user_id = '1' -- example user ID
