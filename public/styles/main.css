@@ -79,6 +79,16 @@ input[type="submit"] {
     color: white;
 }
 
+.button-success {
+    background-color: #198754;
+    color: white;
+}
+
+.button-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
 .button-panel {
     display: flex;
     flex-direction: row;

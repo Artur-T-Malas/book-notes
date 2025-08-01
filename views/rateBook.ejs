@@ -1,6 +1,9 @@
 <%- include("partials/header.ejs") %>
 <main>
     <h2>Rate Book</h2>
+    <p>
+        <a href="/">Back to the main page</a>
+    </p>
     <div id="book-finding-panel" class="book-finder">
         <label for="book-search-title-input">Book Title</label>
         <input type="text" name="title" id="book-search-title-input">
@@ -19,6 +22,7 @@
             <label for="notes">Notes</label>
             <textarea name="notes" rows="10" cols="50" id="notes"></textarea>
             <button type="submit" class="button-primary">Rate</button>
+            <button type="submit" formaction="/" formmethod="get" class="button-danger">Cancel</button>
         </form>
     </div>
 </main>

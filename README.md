@@ -53,7 +53,7 @@ For logged in users:
 - [ ] don't allow adding duplicate books
     * maybe show information about already similar titles
 - [X] automatically add a timestamp when a book is added by the user
-- [ ] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
+- [X] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
 - [X] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
 - [ ] Add an option to delete the unverified by book by the user who added it
 - [ ] have a notification section (new table "notifications") when added book get's accepted/denied (delete either when read (have a button) or after X time from it's creation date)
