@@ -20,6 +20,32 @@ export class DbService {
         }
     }
 
+    async getUserFromRatingAndNotes(ratingId) {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT u.id, u.username, u.email FROM users u
+                INNER JOIN user_book_notes ubn
+                    ON u.id = ubn.user_id
+                WHERE ubn.id = ($1);
+                `, [ratingId]
+            );
+            if (result.rows.length === 0) {
+                console.error(`Rating ID ${ratingId} not found.`);
+                return { success: false, statusCode: 404 };
+            }
+            if (result.rows.length > 1) {
+                console.error(`[CRITICAL] More than 1 rating found for ID ${ratingId}`);
+                return { success: false, statusCode: 500 };
+            }
+            const user = result.rows[0];
+            console.log('user: ', user);
+            return { success: true, statusCode: 200, user: user };
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     async createUser(username, email, passwordHash) {
         try {
             const result = await this.db.query(
@@ -56,14 +82,13 @@ export class DbService {
                 [id]
             );
             const book = result.rows[0];
-            console.log('book: ', book);
             return book;
         } catch (err) {
             console.error(err);
         }
     }
 
-    async getBookFromRatingId(id) {
+    async getBookByRatingId(id) {
         try {
             const result = await this.db.query(
                 `
@@ -71,10 +96,10 @@ export class DbService {
                 INNER JOIN user_book_notes ubn
                     ON b.id = ubn.book_id
                 WHERE ubn.id = ($1);
-                `
+                `,
+                [id]
             )
             const book = result.rows[0];
-            console.log('book: ', book);
             return book;
         } catch (err) {
             console.error(err);
@@ -208,12 +233,31 @@ export class DbService {
         }
     }
 
+    async getUserBookNotes(id) {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT * FROM user_book_notes ubn
+                WHERE ubn.id = ($1);
+                `, [id]
+            );
+            if (result.rows.length === 0) {
+                console.error(`Could not find rating ${id}`);
+                return { success: false, statusCode: 404 };
+            }
+            const rating = result.rows[0];
+            return { success: true, statusCode: 200, rating: rating };
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     async addRatingAndNotes(userId, bookTitle, rating, notes) {
         const dateAdded = new Date().toISOString();
         const dateModified = dateAdded;
         try {
             let result = await this.db.query(
-                'SELECT id FROM books WHERE title=($1)',
+                'SELECT id FROM books WHERE title=($1);',
                 [bookTitle]
             );
             if (result.rows.length < 1) {
@@ -234,6 +278,58 @@ export class DbService {
             }
         } catch (err) {
             console.log(err);
+        }
+    }
+
+    async updateUserBookNotes(id, rating, notes) {
+        const dateModified = new Date().toISOString();
+
+        try{
+            const result = await this.db.query(
+                `
+                UPDATE user_book_notes ubn
+                SET rating = ($1), notes = ($2), date_modified = ($3)
+                WHERE ubn.id = ($4)
+                RETURNING ubn.id;
+                `, [rating, notes, dateModified, id]
+            );
+            if (result.rows.length === 0) {
+                console.error(`Could not find rating ${id}`);
+                return { success: false, statusCode: 404 };
+            }
+            const ratingId = result.rows[0].id;
+            return { success: true, statusCode: 200, ratingId: ratingId };
+        } catch(err) {
+            console.error(err);
+        }
+    }
+
+    async deleteRatingAndNotes(id) {
+        try {
+            const result = await this.db.query(
+                `
+                DELETE FROM user_book_notes ubn
+                WHERE ubn.id = ($1)
+                RETURNING ubn.id;
+                `,
+                [id]
+            );
+            if (result.rows.length === 0) {
+                console.error(`Failed deleting rating ${id}`);
+                return { success: false };
+            }
+            const ratingId = result.rows[0].id;
+            if (ratingId != id) {
+                console.error(
+                    `[CRITICAL] An error has happened during deleting.
+                    Wrong rating was deleted! Was supposed
+                    to delete ${id} but deleted ${ratingId}`
+                );
+                return { success: false, wrongDeletion: true };
+            }
+            return { success: true, ratingId: ratingId };
+        } catch (err) {
+            console.error(err);
         }
     }
 }

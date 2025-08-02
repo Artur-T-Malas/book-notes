@@ -45,7 +45,17 @@
                         <div class="books-list">
                         <% locals.userRatedBooks.forEach((ratedBook) => { %>
                             <div id="user-rated-book-<%= ratedBook.id %>" class="book-card">
-                                <h3><%= ratedBook.title %></h3>
+                                <div class="rating-card-top-bar">
+                                    <h3><%= ratedBook.title %></h3>
+                                    <div class="btn-panel">
+                                        <form action="/editRating/<%= ratedBook.id %>" method="get">
+                                            <button type="submit" id="edit-rating-<%= ratedBook.id %>" value="<%= ratedBook.id %>" class="edit-rating-btn button-secondary">Edit</button>
+                                        </form>
+                                        <form action="/deleteRating/<%= ratedBook.id %>" method="get">
+                                            <button type="submit" id="delete-rating-<%= ratedBook.id %>" value="<%= ratedBook.id %>" class="delete-rating-btn button-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>
                                 <p><%= ratedBook.author %></p>
                                 <p>
                                     Your Rating: <strong><%= ratedBook.rating %></strong><br>

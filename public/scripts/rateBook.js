@@ -1,5 +1,6 @@
 let bookIdInput = document.getElementById('book-id-input');
 let bookTitleInput = document.getElementById('book-title-input');
+let ratingForm = document.getElementById('rating-form')
 let ratingRange = document.getElementById('book-rating-range');
 let ratingPreview = document.getElementById('rating-preview');
 ratingRange.addEventListener('input', (event) => {
@@ -32,8 +33,13 @@ function chooseBook(event) {
     console.log('btnValue', btnValue, typeof btnValue);
     let book = foundBooks.find((book) => book.id === bookId);
     console.log('book: ', book);
+
+    bookTitleInput.type = 'text';
     bookTitleInput.value = book.title;
     bookIdInput.value = book.id;
+
+    booksSearchInput.value = ''; // Clear the search box
+    foundBooksList.replaceChildren(); // Clear the list of found books
 }
 
 function disableSearchBtn(event) {

@@ -105,13 +105,113 @@ app.get("/rateBook", (req, res) => {
     );
 });
 
+app.get("/editRating/:id", async (req, res) => {
+    if (!isLoggedIn) {
+        res.sendStatus(401);
+        return;
+    }
+    const ratingId = req.params.id;
+    const book = await dbService.getBookByRatingId(ratingId);
+    const ratingResult = await dbService.getUserBookNotes(ratingId);
+    if (!ratingResult.success) {
+        res.status(ratingResult.statusCode).send(`Rating with ID ${ratingId} not found`);
+        return;
+    }
+    const rating = ratingResult.rating;
+    res.render(
+        'rateBook.ejs',
+        {
+            isEdit: true,
+            ratingId: ratingId,
+            bookTitle: book.title,
+            rating: rating
+        }
+    );
+});
+
+app.get("/deleteRating/:id", async (req, res) => {
+    const ratingId = req.params.id;
+    const book = await dbService.getBookByRatingId(ratingId);
+    res.render(
+        'deleteRatingConfirmation.ejs',
+        {
+            bookTitle : book.title,
+            ratingId: ratingId
+        }
+    );
+});
+
+app.post("/deleteRating/:id", async (req, res) => {
+    const ratingId = req.params.id;
+
+    // Check if user has access to deleting this rating
+    const userResult = await dbService.getUserFromRatingAndNotes(ratingId);
+    if (!userResult.success) {
+        if (userResult.statusCode === 500) {
+            res.status(500).json({ message: "Server side error" });
+            return;
+        }
+        res.status(userResult.statusCode).json({ message: `Rating ID ${ratingId} not found` });
+        return;
+    }
+    if (userResult.user.id != currentUserId) {
+        console.warn(`User ${currentUserId} tried deleting rating ID ${ratingId} to which they don't have access.`);
+        res.status(403).json({ message: 'Forbidden' });
+        return;
+    }
+
+    console.log(`Deleting rating ${ratingId}`);
+    const result = await dbService.deleteRatingAndNotes(ratingId);
+    if (!result.success) {
+        if (result.wrongDeletion) {
+            res.status(500).json({ message: "Server side error" });
+            return;
+        }
+        res.status(404).json({ message: `Rating ID ${ratingId} not found` });
+        return;
+    }
+    res.redirect('/');
+});
+
 app.post("/ratings", async (req, res) => {
     if (!isLoggedIn) {
         res.sendStatus(401);
         return;
     }
     // TODO: Sanitize input
-    console.log(req.body);
+    if (req.body.isEdit) {
+        const ratingId = req.body.ratingId;
+        const rating = req.body.rating;
+        const notes = req.body.notes;
+
+        // Check if user has access to deleting this rating
+        const userResult = await dbService.getUserFromRatingAndNotes(ratingId);
+        if (!userResult.success) {
+            if (userResult.statusCode === 500) {
+                res.status(500).json({ message: "Server side error" });
+                return;
+            }
+            res.status(userResult.statusCode).json({ message: `Rating ID ${ratingId} not found` });
+            return;
+        }
+        if (userResult.user.id != currentUserId) {
+            console.warn(
+                `User ${currentUserId} tried editing rating ID ${ratingId} to which they don't have access.
+                It belong to user ${userResult.user.id}`
+            );
+            res.status(403).json({ message: 'Forbidden' });
+            return;
+        }
+
+        const editResult = await dbService.updateUserBookNotes(ratingId, rating, notes);
+        if (!editResult.success) {
+            res.sendStatus(editResult.statusCode);
+            return;
+        }
+
+        res.redirect('/');
+        return;
+    }
     const title = req.body.title;
     const rating = parseInt(req.body.rating);
     if (rating > 10 || rating < 1) {

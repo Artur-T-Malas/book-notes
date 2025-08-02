@@ -4,23 +4,44 @@
     <p>
         <a href="/">Back to the main page</a>
     </p>
-    <div id="book-finding-panel" class="book-finder">
-        <label for="book-search-title-input">Book Title</label>
-        <input type="text" name="title" id="book-search-title-input">
-        <button type="button" id="books-search-btn" disabled>Search</button>
-        <div id="found-books-list">
-            <!-- Will be dynamically populated -->
+    <% if (!locals.isEdit || !locals.ratingId) { %>
+        <div id="book-finding-panel" class="book-finder">
+            <label for="book-search-title-input">Book Title</label>
+            <input type="text" name="title" id="book-search-title-input">
+            <button type="button" id="books-search-btn" disabled>Search</button>
+            <div id="found-books-list">
+                <!-- Will be dynamically populated -->
+            </div>
         </div>
-    </div>
+    <% } %>
     <div id="book-rating-panel">
-        <form class="rating-form" action="/ratings" method="post">
-            <input type="hidden" name="id" id="book-id-input">
-            <input type="hidden" name="title" id="book-title-input">
+        <form id="rating-form" class="rating-form" action="/ratings" method="post">
+            <% if (locals.isEdit && locals.bookTitle && locals.ratingId) { %>
+                <input id="view-only-title" type="text" value="<%= bookTitle %>" readonly>
+                <input type="hidden" name="ratingId" value="<%= ratingId %>">
+            <% } %>
+            <input type="hidden" name="isEdit" value="<%= locals.isEdit %>">
+            <input type="hidden" name="bookId" id="book-id-input">
+            <input type="hidden" name="title" id="book-title-input" value="<%= locals.bookTitle %>" readonly>
             <label for="book-rating-range">Rating</label>
-            <input type="range" name="rating" min="1" max="10" value="5" id="book-rating-range">
-            <p id="rating-preview">5</p>
+
+            <% if (locals.isEdit && locals.rating) { %>
+                <input type="range" name="rating" min="1" max="10" value="<%= rating.rating %>" id="book-rating-range">
+                <p id="rating-preview"><%= rating.rating %></p>
+            <% } else { %>
+                <input type="range" name="rating" min="1" max="10" value="5" id="book-rating-range">
+                <p id="rating-preview">5</p>
+            <% } %>
+
+            
             <label for="notes">Notes</label>
-            <textarea name="notes" rows="10" cols="50" id="notes"></textarea>
+
+            <% if (locals.isEdit && locals.rating) { %>
+                <textarea name="notes" rows="10" cols="50" id="notes"><%= rating.notes %></textarea>
+            <% } else { %>
+                <textarea name="notes" rows="10" cols="50" id="notes"></textarea>
+            <% } %>
+
             <button type="submit" class="button-primary">Rate</button>
             <button type="submit" formaction="/" formmethod="get" class="button-danger">Cancel</button>
         </form>

@@ -103,7 +103,7 @@ ORDER BY b.date_added DESC, b.title ASC;
 
 
 -- Get user's rated books
-SELECT b.title, b.author, ubn.rating, ubn.notes, ubn.date_added, ubn.date_modified
+SELECT ubn.id, b.title, b.author, ubn.rating, ubn.notes, ubn.date_added, ubn.date_modified
 FROM books b
 INNER JOIN user_book_notes ubn
 	ON b.id = ubn.book_id 

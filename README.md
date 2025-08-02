@@ -24,6 +24,7 @@ General
 - [X] Use password type input for passwords
 - [X] Add either ~~breadcrumbs or~~ "back" links/buttons to Login, Register, Add Book and other subpages
 - [X] Make the calls to get login/register pages "GET" requests to /login or /register endpoint. But make the actual login/register requests be "POST" to the same endpoints
+- [ ] When failing to log in don't redirect to main page, and show an error instead
 - [X] Refine the `/books` API to be more all-purpose
 - [ ] Document the `/books` API
 - [ ] Have a limit of the queue of unverified books (e.g., 200 total and 10 per user), don't accept more when the limits are reached
@@ -45,11 +46,11 @@ For logged in users:
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
     * [X] The book title ~~should be choosen either from a filtered drop-down, or be typed in an autocomplete field~~ should be first searched and later selected from a list
     * [X] Add notes and ratings
-    * [ ] Edit
-    * [ ] Delete
+    * [X] Edit
+    * [X] Delete
     * [X] Make sure that a person can have only 1 rating per 1 book
     * [ ] Make the ratings and notes fields disabled until a book is chosen
-    * [ ] Highlight the chosen book
+    * [X] Highlight the chosen book
     * [ ] Show the user an alert/warning if he's trying to rate a book again OR disable this (e.g., not show the book in the list of books to rate)
     * [ ] Show message "Nothing found" if searching didn't find any books
 - [X] add an option to add books to the general database (but not edit nor remove them)
@@ -163,3 +164,6 @@ nodemon index.js
 - Add links back to main page and "Cancel" buttons to book adding and rating subpages
 - Create a DbService method to get a book by its id
 - Create a DbService method to get a book by the rating id
+
+## 02.08.2025
+- Add the option to edit and delete ratings and notes

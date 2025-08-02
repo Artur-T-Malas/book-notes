@@ -1,0 +1,12 @@
+<%- include("partials/header.ejs") %>
+<main>
+    <h2>Delete rating and notes for "<%= locals.bookTitle %>"?</h2>
+    <p>
+        <a href="/">Back to the main page</a>
+    </p>
+    <form action="/deleteRating/<%= locals.ratingId %>" method="post">
+        <button type="submit" class="button-danger">Delete</button>
+        <button type="submit" class="button-secondary" formaction="/" formmethod="get">Cancel</button>
+    </form>
+</main>
+<%- include("partials/footer.ejs") %>
