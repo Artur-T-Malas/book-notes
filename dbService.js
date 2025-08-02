@@ -16,7 +16,7 @@ export class DbService {
             let user = result.rows[0];
             return user;
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -39,7 +39,6 @@ export class DbService {
                 return { success: false, statusCode: 500 };
             }
             const user = result.rows[0];
-            console.log('user: ', user);
             return { success: true, statusCode: 200, user: user };
         } catch (err) {
             console.error(err);
@@ -59,7 +58,7 @@ export class DbService {
             }
             return addedUser.id;
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -71,7 +70,7 @@ export class DbService {
             const books = result.rows;
             return books;
         } catch(err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -125,7 +124,7 @@ export class DbService {
             });
             return ratedBooks;
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -148,7 +147,7 @@ export class DbService {
             });
             return mostCommonlyRatedBooks;
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -161,10 +160,10 @@ export class DbService {
             );
             let addedBook = result.rows[0];
             if (addedBook.title !== title || addedBook.author !== author) {
-                console.log("Error while adding book.")
+                console.error("Error while adding book.")
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -185,7 +184,7 @@ export class DbService {
             const userRatedBooks = result.rows;
             return userRatedBooks;
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
@@ -277,7 +276,7 @@ export class DbService {
                 console.warn('Failed adding notes to book.');
             }
         } catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 
