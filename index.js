@@ -74,7 +74,7 @@ async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.error('Login validation errors: ', errors);
-        return res.status(400).json({ message: "Forbidden characters found in user input" });
+        return res.status(400).json({ message: "Validation of user input failed" });
     }
     const username = req.body.username;
     const password = req.body.password;
