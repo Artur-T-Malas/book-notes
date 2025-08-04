@@ -62,6 +62,24 @@ export class DbService {
         }
     }
 
+    async isEmailAlreadyUsed(email) {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT username, email FROM USERS
+                WHERE email = ($1)
+                `,
+                [email]
+            );
+            if (result.rows.length === 0) {
+                return false;
+            }
+            return true;
+        } catch (err) {
+            console.error('Error while searching for an email: ', err);
+        }
+    }
+
     async getBooks() {
         try {
             const result = await this.db.query(

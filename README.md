@@ -5,7 +5,7 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 General
 - [ ] Add data validation and sanitization!
     - [X] Login
-    - [ ] Register
+    - [X] Register
     - [ ] Add Book
     - [ ] New Book
 - [ ] Get book covers and display them
@@ -174,3 +174,4 @@ nodemon index.js
 
 ## 04.08.2025
 - Rework login, validate and sanitize data on the backend, validate form data in the frontend
+- Rework register, validate and sanitize data on the backend, validate form data in the frontend

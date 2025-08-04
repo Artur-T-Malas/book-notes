@@ -27,13 +27,27 @@ export class AuthService {
         Registers a user.
         Returns registered user's ID.
         */
-       const passwordHash = hash(password);
-       const newAddedUserId = this.dbService.createUser(username, email, passwordHash);
-       if (!newAddedUserId) {
-        console.warn(`Registration for ${username}, ${email} failed.`);
-        return null;
-       }
-       return newAddedUserId;
+        // Check if the username and email address are not taken already
+        const existingUser = await this.dbService.getUserByUsername(username);
+        if (existingUser) {
+            if (existingUser.username === username) {
+                console.warn('An attempt has been made to create a new user for already existing username: ', username, email);
+                return { success: false, statusCode: 409, alreadyExists: true };
+            }
+        }
+        const isEmailAlreadyUsed = await this.dbService.isEmailAlreadyUsed(email);
+        if (isEmailAlreadyUsed) {
+            console.warn(`Tried creating user ${username} with email ${email} which is already in use.`);
+            return { success: false, statusCode: 409, isEmailAlreadyUsed: isEmailAlreadyUsed };
+        }
+        
+        const passwordHash = hash(password);
+        const newAddedUserId = await this.dbService.createUser(username, email, passwordHash);
+        if (!newAddedUserId) {
+            console.warn(`Registration for ${username}, ${email} failed.`);
+            return { success: false, statusCode: 500 };
+        }
+        return { success: true, userId: newAddedUserId };
     }
 }
 

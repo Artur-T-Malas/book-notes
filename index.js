@@ -35,6 +35,7 @@ app.get("/", async (req, res) => {
     mostRatedBooks = await dbService.getMostRatedBooks();
     if (isLoggedIn && currentUserId != 0) {
         userUnverifiedBooks = await dbService.getUserUnverifiedBooks(currentUserId);
+        console.log('userUnverifiedBooks: ', userUnverifiedBooks);
         userRatedBooks = await dbService.getUserRatedBooks(currentUserId);
     }
     res.render(
@@ -70,7 +71,6 @@ app.post("/login",
         body('password').trim().isLength( { min: 6, max: 30 } ).blacklist(`=<>\/\\'";`)
     ],
 async (req, res) => {
-    console.log('req.body: ', req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.error('Login validation errors: ', errors);
@@ -92,23 +92,51 @@ async (req, res) => {
         )
         return;
     }
-    currentUser = userResult.user.username;
-    currentUserId = userResult.user.id;
+    currentUser = userResult.username;
+    currentUserId = userResult.userId;
     isLoggedIn = true;
     console.log(currentUserId);
     res.redirect('/');
 });
 
-app.post("/register", async (req, res) => {
-    // TODO: Validate and sanitize input
+app.post("/register",
+    [
+        body('username').trim().isLength({ min: 3, max: 20 }).isAlphanumeric().escape(),
+        body('email').trim().isLength({ max: 100 }).isEmail().blacklist(`=<>\/\\'";`),
+        body('password').trim().isLength({ min: 6, max: 30 }).blacklist(`=<>\/\\'";`)
+    ],
+async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('Register validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of user input failed" });
+    }
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    currentUserId = await authService.registerUser(username, email, password);
-    if (!currentUserId) {
+    const registerResult = await authService.registerUser(username, email, password);
+    if (!registerResult.success) {
+
+        if (
+            registerResult.alreadyExists
+            || registerResult.isEmailAlreadyUsed
+        ) {
+            res.status(registerResult.statusCode).render(
+                'register.ejs',
+                {
+                    isRegisterFailed: true,
+                    alreadyExists: registerResult.alreadyExists ? registerResult.alreadyExists : false,
+                    isEmailAlreadyUsed: registerResult.isEmailAlreadyUsed ? registerResult.isEmailAlreadyUsed : false,
+                    username: username,
+                    email: email
+                }
+            );
+            return
+        }
         res.status(500).json({ error: 'Registration failed' });
         return;
     }
+    currentUserId = registerResult.userId;
     isLoggedIn = true;
     currentUser = username;
     res.redirect('/')

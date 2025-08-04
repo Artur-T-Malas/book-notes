@@ -80,6 +80,10 @@ input[type="submit"] {
     color: #b48701;
 }
 
+.text-danger {
+    color: #701a22;
+}
+
 .button-primary {
     background-color: #0d6efd;
     color: white;
