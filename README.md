@@ -4,6 +4,10 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 ## TODO
 General
 - [ ] Add data validation and sanitization!
+    - [X] Login
+    - [ ] Register
+    - [ ] Add Book
+    - [ ] New Book
 - [ ] Get book covers and display them
 - [ ] Style the pages
 - [ ] Add a search bar to at least the main page (or all pages)
@@ -167,3 +171,6 @@ nodemon index.js
 
 ## 02.08.2025
 - Add the option to edit and delete ratings and notes
+
+## 04.08.2025
+- Rework login, validate and sanitize data on the backend, validate form data in the frontend

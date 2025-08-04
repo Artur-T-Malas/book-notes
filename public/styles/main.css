@@ -62,6 +62,11 @@ button {
     height: 40px;
 }
 
+button:disabled {
+    background-color: #6c757d;
+    color: #babcbf;
+}
+
 input[type="submit"] {
     margin: 5px;
     padding: 5px;
@@ -69,6 +74,10 @@ input[type="submit"] {
     background-color: #526D82;
     color: #DDE6ED;
     font-size: medium;
+}
+
+.text-warning {
+    color: #b48701;
 }
 
 .button-primary {
@@ -124,7 +133,12 @@ input[type="submit"] {
     visibility: hidden;
 }
 
-#login-panel, #register-panel {
+#auth-panel {
     display: flex;
     flex-direction: row;
+}
+
+#login-panel, #register-panel {
+    display: flex;
+    flex-direction: column;
 }

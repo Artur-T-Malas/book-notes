@@ -11,11 +11,15 @@ export class AuthService {
         returns user's ID. Otherwise returns null.
         */
         const passwordHash = hash(password);
-        const user = await this.dbService.getUserByUsername(username);
-        if (passwordHash !== user.password_hash) {
-            return null;
+        const userResult = await this.dbService.getUserByUsername(username);
+        if (!userResult) {
+            return { success: false, isWrongUsername: true };
         }
-        return user.id;
+        const user = userResult;
+        if (passwordHash !== user.password_hash) {
+            return { success: false, isWrongPassword: true };
+        }
+        return { success: true, userId: user.id, username: user.username };
     }
 
     async registerUser(username, email, password) {

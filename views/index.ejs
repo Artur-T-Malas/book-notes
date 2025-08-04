@@ -1,7 +1,7 @@
 <%- include("partials/header.ejs") %>
     <nav>
         <h1>Book Notes</h1>
-        <div id="login-panel">
+        <div id="auth-panel">
             <% if (locals.isLoggedIn && locals.username) { %>
                 <p>Welcome, <%= locals.username %></p>
                 <form id="login" action="/logout" method="post">

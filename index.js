@@ -4,6 +4,7 @@ import pg from "pg";
 import { config } from "./config.js"
 import { DbService } from "./dbService.js";
 import { AuthService } from "./authService.js";
+import { body, validationResult } from "express-validator";
 
 const app = express();
 const port = 3000;
@@ -63,16 +64,36 @@ app.post("/logout", (req, res) => {
     res.redirect('/');
 });
 
-app.post("/login", async (req, res) => {
-    // TODO: Validate and sanitize input
+app.post("/login",
+    [
+        body('username').trim().isLength( { min: 3, max: 20 }).isAlphanumeric().escape(),
+        body('password').trim().isLength( { min: 6, max: 30 } ).blacklist(`=<>\/\\'";`)
+    ],
+async (req, res) => {
+    console.log('req.body: ', req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('Login validation errors: ', errors);
+        return res.status(400).json({ message: "Forbidden characters found in user input" });
+    }
     const username = req.body.username;
     const password = req.body.password;
-    currentUserId = await authService.loginUser(username, password);
-    if (!currentUserId) {
-        res.redirect('/');
+    const userResult = await authService.loginUser(username, password);
+    console.log('userResult: ', userResult);
+    if (!userResult.success) {
+        res.render(
+            'login.ejs',
+            {
+                username: username,
+                isLoginFailed: true,
+                isWrongUsername: userResult.isWrongUsername,
+                isWrongPassword: userResult.isWrongPassword
+            }
+        )
         return;
     }
-    currentUser = username;
+    currentUser = userResult.user.username;
+    currentUserId = userResult.user.id;
     isLoggedIn = true;
     console.log(currentUserId);
     res.redirect('/');
