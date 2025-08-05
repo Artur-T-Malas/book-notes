@@ -49,6 +49,16 @@ ADD date_added TIMESTAMP WITH TIME ZONE;
 ALTER TABLE user_book_notes
 ADD date_modified TIMESTAMP WITH TIME ZONE;
 
+-- Search books by partial title or author and show their avg rating and rating count
+SELECT b.id, b.title, b.author, AVG(ubn.rating) AS avg_rating, COALESCE(COUNT(ubn.rating), 0) AS times_rated
+FROM books b
+LEFT JOIN user_book_notes ubn
+  ON b.id = ubn.book_id
+WHERE LOWER(b.title) LIKE '%example%' -- example value
+    OR LOWER(b.author) LIKE '%example%'  -- example value
+GROUP BY b.id
+ORDER BY b.title, b.author;
+
 -- Get average ratings of verified books, sorted by highest rated
 SELECT b.title, b.author, AVG(ubn.rating) AS avg_rating FROM books b
 LEFT OUTER JOIN user_book_notes ubn

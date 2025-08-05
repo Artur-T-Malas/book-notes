@@ -2,7 +2,7 @@
 This repository holds **my** solution for a **Capstone Project** from dr. Angela Yu's [*The Complete Full-Stack Web Development Bootcamp*](https://www.udemy.com/course/the-complete-web-development-bootcamp/).
 
 ## TODO
-General
+### General
 - [ ] Get book covers and display them
 - [ ] Style the pages
 - [ ] Add a search bar to at least the main page (or all pages)
@@ -30,7 +30,7 @@ General
 - [X] When failing to log in don't redirect to main page, and show an error instead
 - [X] Refine the `/books` API to be more all-purpose
 
-For all users:
+### For all users
 - [ ] When clicking a book, have a notes/rating section
     * separate `.ejs` template for this usecase
     * access it by:
@@ -41,7 +41,7 @@ For all users:
 - [X] See a list of most commonly rated books and their rating (count of all user ratings)
 - [X] Rework adding book ratings to work on `book.id` instead of `book.title`
 
-For logged in users:
+### For logged in users
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
     * [ ] Show message "Nothing found" if searching didn't find any books
     * [ ] Make the ratings and notes fields disabled until a book is chosen
@@ -61,7 +61,7 @@ For logged in users:
 - [X] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
 - [X] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
 
-For admin(s):
+### For admin(s)
 - [ ] add either a new page or section to view books added by users and accept/deny them
 - [ ] add option to edit and remove books
 - [ ] have a panel to manage users (e.g., delete their accounts, make them admins or take away their admin status)
@@ -175,3 +175,4 @@ nodemon index.js
 - Add validation, sanitization and duplicate prevention to adding and editing ratings
 - Modified adding of ratings to work on book ID instead of title
 - Add validation and sanitization of all user inputs
+- Create query to be used for the search bar (searching books by partial title or author name)
