@@ -176,3 +176,5 @@ nodemon index.js
 - Modified adding of ratings to work on book ID instead of title
 - Add validation and sanitization of all user inputs
 - Create query to be used for the search bar (searching books by partial title or author name)
+- Move the `/books` API to `/api/books` endpoint
+- Add search function (by the partial title or author name) on the main page

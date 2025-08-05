@@ -1,0 +1,28 @@
+<%- include("partials/header.ejs") %>
+<main>
+    <p>
+        <a href="/">Back to the main page</a>
+    </p>
+    <h2>Search results</h2>
+    <% if (locals.results && locals.searchString) { %>
+        <h3>for: "<i><%= locals.searchString %></i>"</h3>
+        <% if (locals.results.length === 0) { %>
+            <p>No results found.</p>
+        <% } %>
+        <div class="books-list">
+            <% locals.results.forEach((book) => { %>
+                <div id="book-<%= book.id %>" class="book-card">
+                    <h3><%= book.title %></h3>
+                    <p><%= book.author %></p>
+                    <p>
+                        Average rating: <%= book.avg_rating %><br>
+                        Times rated: <%= book.times_rated %>
+                    </p>
+                </div>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="text-danger">An error has occurred.</p>
+    <% } %>
+</main>
+<%- include("partials/footer.ejs") %>

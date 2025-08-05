@@ -231,6 +231,43 @@ export class DbService {
         }
     }
 
+    async getBooksByPartialTitleOrAuthor(searchString) {
+        /*
+        Searches for books by either partial title or author name.
+        The search string is case insensitive.
+        */
+        const lowerCaseSearchString = `%${searchString.toLowerCase()}%`;
+
+        try {
+            const result = await this.db.query(
+                `
+                SELECT b.id, b.title, b.author, COALESCE(AVG(ubn.rating), 0) as avg_rating, COALESCE(COUNT(ubn.rating), 0) as times_rated
+                FROM books b
+                LEFT JOIN user_book_notes ubn
+                    ON b.id = ubn.book_id
+                WHERE b.verified = 'true'
+                    AND (
+                        LOWER(b.title) LIKE ($1)
+                        OR LOWER(b.author) LIKE ($1)
+                    )
+                GROUP BY b.id
+                ORDER BY b.title, b.author;
+                `, [lowerCaseSearchString]
+            );
+            if (result.rows.length === 0) {
+                return { success: false, statusCode: 404 };
+            }
+            const foundBooks = result.rows;
+            foundBooks.forEach((book) => {
+                book.avg_rating = book.avg_rating != 0 ? `${parseInt(book.avg_rating)}/10` : 'Not rated yet';
+            });
+            return { success: true, statusCode: 200, books: foundBooks };
+        } catch (err) {
+            console.error('Error while searching books: ', err);
+            return { success: false, statusCode: 500 };
+        }
+    }
+
     async getUserUnverifiedBooks(userId) {
         try {
             const result = await this.db.query(

@@ -4,7 +4,7 @@ import pg from "pg";
 import { config } from "./config.js"
 import { DbService } from "./dbService.js";
 import { AuthService } from "./authService.js";
-import { body, param, query, validationResult } from "express-validator";
+import { body, param, query, validationResult, matchedData } from "express-validator";
 
 const app = express();
 const port = 3000;
@@ -401,6 +401,49 @@ async (req, res) => {
     res.status(200).json(foundBooks);
 });
 
+app.get("/books", [
+    query('search').trim().isLength({ min: 3, max: 100 }).escape().blacklist(`=<>'";`)
+],
+async (req, res) => {
+
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('Search validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of user input failed" });
+    }
+
+    const sanitized = matchedData(req);
+
+    const searchString = sanitized.search;
+    const searchResult = await dbService.getBooksByPartialTitleOrAuthor(searchString);
+
+    if (searchResult.statusCode === 500) {
+        res.satus(500).render('searchResults.ejs');
+        return;
+    }
+
+    if (searchResult.statusCode === 404) {
+        res.status(404).render(
+            'searchResults.ejs',
+            {
+                searchString: searchString,
+                results: []
+            }
+        );
+        return;
+    }
+
+    res.render(
+        'searchResults.ejs',
+        {
+            searchString: searchString,
+            results: searchResult.books
+        }
+    );
+
+});
+
 app.post("/books",
 [
     body('title').trim().isLength({ max: 100 }).escape().blacklist(`=<>\/\\'";`),
@@ -419,9 +462,10 @@ async (req, res) => {
         console.error('Book validation errors: ', errors);
         return res.status(400).json({ message: "Validation of user input failed" });
     }
+    const sanitized = matchedData(req);
 
-    const title = req.body.title;
-    const author = req.body.author;
+    const title = sanitized.title;
+    const author = sanitized.author;
     await dbService.createBook(title, author, currentUserId);
     res.redirect('/');
 });
