@@ -293,28 +293,27 @@ export class DbService {
         }
     }
 
-    async addRatingAndNotes(userId, bookTitle, rating, notes) {
+    async addRatingAndNotes(userId, bookId, rating, notes) {
         const dateAdded = new Date().toISOString();
         const dateModified = dateAdded;
         try {
             let result = await this.db.query(
-                'SELECT id FROM books WHERE title=($1);',
-                [bookTitle]
+                'SELECT * FROM books WHERE id=($1);',
+                [bookId]
             );
             if (result.rows.length < 1) {
-                throw new Error(`No book with title "${bookTitle}" found in database.`);
+                throw new Error(`No book with ID "${bookId}" found in database.`);
             }
-            const bookId = result.rows[0].id;
             result = await this.db.query(
                 `
                 INSERT INTO user_book_notes (user_id, book_id, rating, notes, date_added, date_modified)
                 VALUES (($1), ($2), ($3), ($4), ($5), ($6))
-                RETURNING book_id;
+                RETURNING user_id, book_id;
                 `,
                 [userId, bookId, rating, notes, dateAdded, dateModified]
             );
-            const addedNotesBookId = result.rows[0].book_id
-            if (bookId !== addedNotesBookId) {
+            const addedNotes = result.rows[0];
+            if (bookId != addedNotes.book_id || userId != addedNotes.user_id) {
                 console.warn('Failed adding notes to book.');
             }
         } catch (err) {

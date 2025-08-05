@@ -228,6 +228,7 @@ app.post("/ratings",
     body('notes').trim().isLength({ max: 500 }).escape().blacklist(`=<>\/\\'";`)
 ],
 async (req, res) => {
+
     if (!isLoggedIn) {
         res.sendStatus(401);
         return;
@@ -289,7 +290,7 @@ async (req, res) => {
         res.status(400).json({ message: 'Invalid input. Rating must be an integer between 1 and 10 (inclusive).' });
         return;
     }
-    await dbService.addRatingAndNotes(currentUserId, bookTitle, rating, notes);
+    await dbService.addRatingAndNotes(currentUserId, bookId, rating, notes);
     res.redirect('/');
 });
 

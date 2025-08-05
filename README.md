@@ -8,13 +8,14 @@ General
     - [X] Register
     - [ ] Add Book
     - [ ] New Book
+    - [X] Add/edit Book Rating
 - [ ] Get book covers and display them
 - [ ] Style the pages
 - [ ] Add a search bar to at least the main page (or all pages)
     * if there are no results:
         - for logged in users -> show the option to add a book
         - for guests -> show a message with login link e.g., "login/register to add the missing book"
-    * if there are result generate a new view only with the found books
+    * if there are results generate a new view only with the found books
         - for logged in users -> have a button on each result to rate it IF not yet rated
         - for guests -> simply show the books along with their avg rating and rating count
 - [X] Hide "Add Book" and "Rate Book" buttons for guest users ~~OR redirect to login page~~
@@ -28,7 +29,7 @@ General
 - [X] Use password type input for passwords
 - [X] Add either ~~breadcrumbs or~~ "back" links/buttons to Login, Register, Add Book and other subpages
 - [X] Make the calls to get login/register pages "GET" requests to /login or /register endpoint. But make the actual login/register requests be "POST" to the same endpoints
-- [ ] When failing to log in don't redirect to main page, and show an error instead
+- [X] When failing to log in don't redirect to main page, and show an error instead
 - [X] Refine the `/books` API to be more all-purpose
 - [ ] Document the `/books` API
 - [ ] Have a limit of the queue of unverified books (e.g., 200 total and 10 per user), don't accept more when the limits are reached
@@ -43,8 +44,7 @@ For all users:
         - clicking on a book in most commonly rated / highest rated list
         - clicking a result from searching on the main page
     * have it on endpoint like `/books/<bookId>`
-- [ ] Have an error message when login fails
-- [ ] Rework adding book ratings to work on `book.id` instead of `book.title`
+- [X] Rework adding book ratings to work on `book.id` instead of `book.title`
 
 For logged in users:
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
@@ -178,3 +178,4 @@ nodemon index.js
 
 ## 05.08.2025
 - Add validation, sanitization and duplicate prevention to adding and editing ratings
+- Modified adding of ratings to work on book ID instead of title

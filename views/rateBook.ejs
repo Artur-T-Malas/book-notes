@@ -20,10 +20,10 @@
                 <input id="view-only-title" type="text" value="<%= bookTitle %>" readonly>
                 <input type="hidden" name="ratingId" value="<%= ratingId %>">
                 <input type="hidden" name="bookId" id="book-id-input" value="<%= bookId %>">
+                <input type="hidden" name="isEdit" value="<%= locals.isEdit %>">
             <% } else { %>
                 <input type="hidden" name="bookId" id="book-id-input">
             <% } %>
-            <input type="hidden" name="isEdit" value="<%= locals.isEdit %>">
             <input type="hidden" name="title" id="book-title-input" value="<%= locals.bookTitle %>" readonly>
             <label for="book-rating-range">Rating</label>
 
