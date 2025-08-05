@@ -216,7 +216,7 @@ export class DbService {
             const dateModified = dateAdded;
             const result = await this.db.query(
                 `
-                SELECT ubn.id, b.title, b.author, ubn.rating, ubn.notes, ubn.date_added, ubn.date_modified
+                SELECT b.id, b.title, b.author, ubn.rating, ubn.notes, ubn.date_added, ubn.date_modified
                 FROM books b
                 INNER JOIN user_book_notes ubn
                     ON b.id = ubn.book_id

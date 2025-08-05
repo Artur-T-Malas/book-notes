@@ -510,7 +510,7 @@ async (req, res) => {
     const ratingsAndNotes = await dbService.getAllRatingsAndNotesByBookId(bookId);
     let hasUserAlreadyRatedIt = false;
 
-    if (isLoggedIn) {
+    if (isLoggedIn && ratingsAndNotes !== null) {
         hasUserAlreadyRatedIt = ratingsAndNotes.some((rating) => rating.user_id === currentUserId);
     }
 

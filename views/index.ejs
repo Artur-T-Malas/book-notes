@@ -51,7 +51,7 @@
                         <% locals.userRatedBooks.forEach((ratedBook) => { %>
                             <div id="user-rated-book-<%= ratedBook.id %>" class="book-card">
                                 <div class="rating-card-top-bar">
-                                    <h3><%= ratedBook.title %></h3>
+                                    <h3><a href="/books/<%= ratedBook.id %>"><%= ratedBook.title %></a></h3>
                                     <div class="btn-panel">
                                         <form action="/editRating/<%= ratedBook.id %>" method="get">
                                             <button type="submit" id="edit-rating-<%= ratedBook.id %>" value="<%= ratedBook.id %>" class="edit-rating-btn button-secondary">Edit</button>
@@ -85,7 +85,7 @@
             <div id="highest-rated-books-list" class="books-list">
                 <% locals?.highestRatedBooks.forEach((book) => { %>
                 <div id="highest-rated-book-<%= book.id %>" class="book-card">
-                    <h3><%= book.title %></h3>
+                    <h3><a href="/books/<%= book.id %>"><%= book.title %></a></h3>
                     <p><%= book.author %></p>
                     <p>Rating: <%= book.avg_rating %></p>
                 </div>
@@ -95,7 +95,7 @@
             <div id="most-rated-books-list" class="books-list">
                 <% locals?.mostRatedBooks.forEach((book) => { %>
                 <div id="common-rated-book-<%= book.id %>" class="book-card">
-                    <h3><%= book.title %></h3>
+                    <h3><a href="/books/<%= book.id %>"><%= book.title %></a></h3>
                     <p><%= book.author %></p>
                     <p>Times rated: <%= book.times_rated %></p>
                 </div>

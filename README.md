@@ -31,7 +31,7 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 - [X] Refine the `/api/books` API to be more all-purpose
 
 ### For all users
-- [ ] When clicking a book, have a notes/rating section
+- [X] When clicking a book, have a notes/rating section
     * separate `.ejs` template for this usecase
     * access it by:
         - clicking on a book in most commonly rated / highest rated list
@@ -185,3 +185,4 @@ nodemon index.js
 - Add search function (by the partial title or author name) on the main page
 - Create subpages for each book which contain books info and ratings with notes (if they exist)
     * Modified adding ratings and notes to have an option to rate a book directly from it's page
+- Clicking on a book in any section now redirects to that book's subpage
