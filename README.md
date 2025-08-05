@@ -43,6 +43,7 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 
 ### For logged in users
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
+    * [ ] Modify the `.ejs` template to provide book's ID when rating it from clicking the link on a book page
     * [ ] Show message "Nothing found" if searching didn't find any books
     * [ ] Make the ratings and notes fields disabled until a book is chosen
     * [X] The book title ~~should be choosen either from a filtered drop-down, or be typed in an autocomplete field~~ should be first searched and later selected from a list
@@ -177,5 +178,6 @@ nodemon index.js
 - Modified adding of ratings to work on book ID instead of title
 - Add validation and sanitization of all user inputs
 - Create query to be used for the search bar (searching books by partial title or author name)
+- Create query for getting all user notes and ratings for a book
 - Move the `/books` API to `/api/books` endpoint
 - Add search function (by the partial title or author name) on the main page

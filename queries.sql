@@ -121,3 +121,11 @@ FROM books b
 INNER JOIN user_book_notes ubn
 	ON b.id = ubn.book_id 
 WHERE ubn.user_id = '1' -- example user ID
+
+
+-- Get all ratings for a book
+SELECT u.username, ubn.rating, ubn.notes, ubn.date_modified FROM user_book_notes ubn
+JOIN users u
+	ON u.id = ubn.user_id
+WHERE ubn.book_id = '5' -- Example value
+ORDER BY ubn.date_modified DESC;
