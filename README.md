@@ -42,6 +42,8 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 - [X] Rework adding book ratings to work on `book.id` instead of `book.title`
 
 ### For logged in users
+- [ ] De-escape some characters (`';`) when displaying stuff
+- [ ] If going to login from e.g., from the book page, after logging in redirect back to that page (maybe keep it as a query parameter e.g., `redirectTo`)
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
     * [ ] Modify the `.ejs` template to provide book's ID when rating it from clicking the link on a book page
     * [ ] Show message "Nothing found" if searching didn't find any books
@@ -181,3 +183,5 @@ nodemon index.js
 - Create query for getting all user notes and ratings for a book
 - Move the `/books` API to `/api/books` endpoint
 - Add search function (by the partial title or author name) on the main page
+- Create subpages for each book which contain books info and ratings with notes (if they exist)
+    * Modified adding ratings and notes to have an option to rate a book directly from it's page

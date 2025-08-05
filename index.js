@@ -150,14 +150,36 @@ async (req, res) => {
     res.redirect('/')
 });
 
-app.get("/rateBook", (req, res) => {
+app.get("/rateBook", 
+[
+    query('bookId').trim().optional().isNumeric(),
+    query('bookTitle').trim().isLength({ max: 100 }).escape().blacklist(`=<>\/\\'";`),
+],
+(req, res) => {
     if (!isLoggedIn) {
         res.sendStatus(401);
         return;
     }
+
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('RatingId validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of user input failed" });
+    }
+
+     // Sanitization
+    const sanitized = matchedData(req);
+    const bookId = sanitized.bookId;
+    const bookTitle = sanitized.bookTitle;
+
     res.render(
         'rateBook.ejs',
-        { books: books }
+        {
+            // books: books,
+            bookId: bookId ? bookId : null,
+            bookTitle: bookTitle ? bookTitle : null
+        }
     );
 });
 
@@ -465,6 +487,43 @@ async (req, res) => {
         }
     );
 
+});
+
+app.get("/books/:id",
+[
+    param('id').trim().isNumeric()
+],
+async (req, res) => {
+
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('Search validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of user input failed" });
+    }
+
+    // Sanitization
+    const sanitized = matchedData(req);
+    const bookId = sanitized.id;
+
+    const book = await dbService.getBookWithAvgRatingAndRatingCount(bookId);
+    const ratingsAndNotes = await dbService.getAllRatingsAndNotesByBookId(bookId);
+    let hasUserAlreadyRatedIt = false;
+
+    if (isLoggedIn) {
+        hasUserAlreadyRatedIt = ratingsAndNotes.some((rating) => rating.user_id === currentUserId);
+    }
+
+    res.render(
+        'book.ejs',
+        {
+            isLoggedIn: isLoggedIn,
+            username: currentUser,
+            book: book,
+            ratingsAndNotes: ratingsAndNotes,
+            hasUserAlreadyRatedIt: hasUserAlreadyRatedIt
+        }
+    )
 });
 
 app.post("/books",

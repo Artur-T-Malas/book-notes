@@ -76,6 +76,10 @@ input[type="submit"] {
     font-size: medium;
 }
 
+.text-success {
+    color: #004b01;
+}
+
 .text-warning {
     color: #b48701;
 }
@@ -109,14 +113,14 @@ input[type="submit"] {
     flex-direction: row;
 }
 
-.books-list {
+.books-list, .rating-list {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.book-card {
+.book-card, .rating-card {
     margin: 5px;
     border: 2px solid grey;
     border-radius: 5px;

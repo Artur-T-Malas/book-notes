@@ -4,7 +4,7 @@
     <p>
         <a href="/">Back to the main page</a>
     </p>
-    <% if (!locals.isEdit || !locals.ratingId) { %>
+    <% if (!locals.isEdit && !locals.ratingId && !locals.bookId) { %>
         <div id="book-finding-panel" class="book-finder">
             <label for="book-search-title-input">Book Title</label>
             <input type="text" name="title" id="book-search-title-input">
@@ -16,11 +16,13 @@
     <% } %>
     <div id="book-rating-panel">
         <form id="rating-form" class="rating-form" action="/ratings" method="post">
-            <% if (locals.isEdit && locals.bookTitle && locals.ratingId && locals.bookId) { %>
-                <input id="view-only-title" type="text" value="<%= bookTitle %>" readonly>
+            <% if (locals.isEdit && locals.ratingId) { %>
                 <input type="hidden" name="ratingId" value="<%= ratingId %>">
-                <input type="hidden" name="bookId" id="book-id-input" value="<%= bookId %>">
                 <input type="hidden" name="isEdit" value="<%= locals.isEdit %>">
+            <% } %>
+            <% if (locals.bookTitle && locals.bookId) { %>
+                <input id="view-only-title" type="text" value="<%= bookTitle %>" readonly>
+                <input type="hidden" name="bookId" id="book-id-input" value="<%= bookId %>">
             <% } else { %>
                 <input type="hidden" name="bookId" id="book-id-input">
             <% } %>
@@ -35,7 +37,6 @@
                 <p id="rating-preview">5</p>
             <% } %>
 
-            
             <label for="notes">Notes</label>
 
             <% if (locals.isEdit && locals.rating) { %>

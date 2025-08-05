@@ -1,0 +1,23 @@
+<nav>
+    <h1>Book Notes</h1>
+    <div id="search-bar">
+        <form id="search-form" action="/books" method="get">
+            <input type="text" id="search-input" name="search" minlength="3" maxlength="100" placeholder="Search title or author..." required>
+        </form>
+    </div>
+    <div id="auth-panel">
+        <% if (locals.isLoggedIn && locals.username) { %>
+            <p>Welcome, <%= locals.username %></p>
+            <form id="login" action="/logout" method="post">
+                <input type="submit" value="Logut" id="logout-btn" class="button">
+            </form>
+        <% } else { %>
+            <form id="login" class="login-form" action="/login" method="get">
+                <input type="submit" value="Login" id="login-btn" class="button">
+            </form>
+            <form id="register" class="login-form" action="/register" method="get">
+                <input type="submit" value="Register" id="register-btn" class="button">
+            </form>
+        <% } %>
+    </div>
+</nav>

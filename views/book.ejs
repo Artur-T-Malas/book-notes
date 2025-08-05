@@ -1,0 +1,51 @@
+<%- include("partials/header.ejs") %>
+<%- include("partials/nav.ejs") %>
+<main>
+    <a href="/">Back to the main page</a>
+    <% if (locals.book) { %>
+        <div class="book-page">
+            <h2 id="book-title"><%= book.title %></h2>
+            <h3 id="book-author"><%= book.author %></h3>
+            <p>
+                Average rating: <%= book.avg_rating %><br>
+                Times rated: <%= book.times_rated %>
+            </p>
+            <% if (locals.ratingsAndNotes) { %>
+                <% if (isLoggedIn && !locals.hasUserAlreadyRatedIt) { %>
+                    <form action="/rateBook" method="get">
+                        <input type="hidden" name="bookId" value="<%= book.id %>">
+                        <input type="hidden" name="bookTitle" value="<%= book.title %>">
+                        <button type="submit" class="button-primary">Add Rating</button>
+                    </form>
+                <% } else if (isLoggedIn && locals.hasUserAlreadyRatedIt) { %>
+                    <p class="text-success">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#004B01"><path d="m395-285 339-339-50-51-289 288-119-118-50 50 169 170Zm1 102L124-455l152-152 119 118 289-288 153 153-441 441Z"/></svg>
+                        </span>
+                        You have already rated this book.
+                    </p>
+                <% } else { %>
+                    <p>Would you like to rate this book? <a href="/login">Login</a> first please.</p>
+                <% } %>
+                <div id="user-ratings-and-notes-list" class="rating-list">
+                    <% ratingsAndNotes.forEach((rating) => { %>
+                        <div class="rating-card">
+                            <h3><%= rating.username %></h3>
+                            <p>Date modified: <%= rating.date_modified %></p>
+                            <p>Rating: <strong><%= rating.rating %></strong></p>
+                            <h3>Notes</h3>
+                            <p><%= rating.notes %></p>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <% if (isLoggedIn) { %>
+                    <p>This book has not been rated yet. Be the first and <a href="/rateBook?bookId=<%= book.id %>&bookTitle=<%= book.title %>">Rate it!</a></p>
+                <% } else { %>
+                    <p>This book has not been rated yet. <a href="/login">Login</a> and be the first to rate it!</p>
+                <% } %>
+            <% } %>
+        </div>
+    <% } %>
+</main>
+<%- include("partials/footer.ejs") %>

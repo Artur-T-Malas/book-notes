@@ -105,6 +105,31 @@ export class DbService {
         }
     }
 
+    async getBookWithAvgRatingAndRatingCount(id) {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT b.id, b.title, b.author, AVG(ubn.rating) AS avg_rating, COALESCE(COUNT(ubn.rating), 0) AS times_rated
+                FROM books b
+                LEFT JOIN user_book_notes ubn
+                    ON ubn.book_id = b.id
+                WHERE b.id=($1)
+                GROUP BY b.id
+                `, [id]
+            );
+            if (result.rows.length === 0) {
+                console.warn(`No book found with id ${id}`);
+                return null;
+            }
+            let book = result.rows[0];
+            book.avg_rating = book.avg_rating > 0 ? `${parseInt(book.avg_rating)}/10` : 'Not rated yet';
+            book.times_rated = book.times_rated != 0 ? parseInt(book.times_rated) : 'No ratings yet';
+            return book;
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     async getBookByRatingId(id) {
         try {
             const result = await this.db.query(
@@ -303,6 +328,28 @@ export class DbService {
             return { success: true, statusCode: 200, rating: rating };
         } catch (err) {
             console.error(err);
+        }
+    }
+
+    async getAllRatingsAndNotesByBookId(bookId) {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT u.id AS user_id, u.username, ubn.rating, ubn.notes, ubn.date_modified FROM user_book_notes ubn
+                JOIN users u
+                    ON u.id = ubn.user_id
+                WHERE ubn.book_id = ($1)
+                ORDER BY ubn.date_modified DESC;
+                `, [bookId]
+            );
+            if (result.rows.length === 0) {
+                return null;
+            }
+            const ratingsAndNotes = result.rows;
+            return ratingsAndNotes;
+        } catch (err) {
+            console.error(`Error getting ratings for book ID ${bookId}: `, err);
+            return null;
         }
     }
 

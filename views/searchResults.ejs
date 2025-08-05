@@ -12,7 +12,7 @@
         <div class="books-list">
             <% locals.results.forEach((book) => { %>
                 <div id="book-<%= book.id %>" class="book-card">
-                    <h3><%= book.title %></h3>
+                    <h3><a href="/books/<%= book.id %>"><%= book.title %></a></h3>
                     <p><%= book.author %></p>
                     <p>
                         Average rating: <%= book.avg_rating %><br>
