@@ -173,6 +173,7 @@ nodemon index.js
 
 ## 05.08.2025
 - Add validation, sanitization and duplicate prevention to adding and editing ratings
+    * Fix sanitization by using `matchedData` from `express-validator` instead of relying on modification of `req` in-place
 - Modified adding of ratings to work on book ID instead of title
 - Add validation and sanitization of all user inputs
 - Create query to be used for the search bar (searching books by partial title or author name)

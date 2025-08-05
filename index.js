@@ -65,17 +65,23 @@ app.post("/logout", (req, res) => {
 
 app.post("/login",
     [
-        body('username').trim().isLength( { min: 3, max: 20 }).isAlphanumeric().escape(),
-        body('password').trim().isLength( { min: 6, max: 30 } ).blacklist(`=<>\/\\'";`)
+        body('username').trim().isLength( { min: 3, max: 20 }).isAlphanumeric(),
+        body('password').trim().isLength( { min: 6, max: 30 } ).escape()
     ],
 async (req, res) => {
+
+    // Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.error('Login validation errors: ', errors);
         return res.status(400).json({ message: "Validation of user input failed" });
     }
-    const username = req.body.username;
-    const password = req.body.password;
+
+    // Sanitization
+    const sanitized = matchedData(req);
+    const username = sanitized.username;
+    const password = sanitized.password;
+
     const userResult = await authService.loginUser(username, password);
     if (!userResult.success) {
         res.render(
@@ -102,14 +108,20 @@ app.post("/register",
         body('password').trim().isLength({ min: 6, max: 30 }).blacklist(`=<>\/\\'";`)
     ],
 async (req, res) => {
+
+    // Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.error('Register validation errors: ', errors);
         return res.status(400).json({ message: "Validation of user input failed" });
     }
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
+
+    // Sanitization
+    const sanitized = matchedData(req);
+    const username = sanitized.username;
+    const email = sanitized.email;
+    const password = sanitized.password;
+
     const registerResult = await authService.registerUser(username, email, password);
     if (!registerResult.success) {
 
@@ -167,7 +179,10 @@ async (req, res) => {
         return res.status(400).json({ message: "Validation of user input failed" });
     }
 
-    const ratingId = req.params.id;
+    // Sanitization
+    const sanitized = matchedData(req);
+    const ratingId = sanitized.id;
+
     const book = await dbService.getBookByRatingId(ratingId);
     const ratingResult = await dbService.getUserBookNotes(ratingId);
     if (!ratingResult.success) {
@@ -192,7 +207,6 @@ app.get("/deleteRating/:id",
     param('id').trim().exists().isNumeric()
 ],    
 async (req, res) => {
-    console.log('req.params: ', req.params);
     
     // Validation
     const errors = validationResult(req);
@@ -200,8 +214,11 @@ async (req, res) => {
         console.error('RatingId validation errors: ', errors);
         return res.status(400).json({ message: "Validation of user input failed" });
     }
+
+    // Sanitization
+    const sanitized = matchedData(req);
+    const ratingId = sanitized.id;
     
-    const ratingId = req.params.id;
     const book = await dbService.getBookByRatingId(ratingId);
     res.render(
         'deleteRatingConfirmation.ejs',
@@ -225,7 +242,9 @@ async (req, res) => {
         return res.status(400).json({ message: "Validation of user input failed" });
     }
 
-    const ratingId = req.params.id;
+    // Sanitization
+    const sanitized = matchedData(req);
+    const ratingId = sanitized.id;
 
     // Check if user has access to deleting this rating
     const userResult = await dbService.getUserFromRatingAndNotes(ratingId);
@@ -279,15 +298,15 @@ async (req, res) => {
         return res.status(400).json({ message: "Validation of user input failed" });
     }
 
-    const bookTitle = req.body.title;
-    const bookId = parseInt(req.body.bookId);
-    const rating = parseInt(req.body.rating);
-    const notes = req.body.notes;
+    // Sanitization
+    const sanitized = matchedData(req);
+    const bookTitle = sanitized.title;
+    const bookId = parseInt(sanitized.bookId);
+    const rating = parseInt(sanitized.rating);
+    const notes = sanitized.notes;
 
-    if (req.body.isEdit) {
-        const ratingId = req.body.ratingId;
-        const rating = req.body.rating;
-        const notes = req.body.notes;
+    if (sanitized.isEdit) {
+        const ratingId = sanitized.ratingId;
 
         // Check if user has access to editing this rating
         const userResult = await dbService.getUserFromRatingAndNotes(ratingId);
@@ -363,23 +382,26 @@ async (req, res) => {
         return res.status(400).json({ message: "Validation of query failed" });
     }
 
+    // Sanitization
+    const sanitized = matchedData(req);
+
     if (Object.keys(req.query).length < 1) {
         res.status(403).json({ 'message': 'Retrieving all books is not allowed at this point' });
         return;
     }
     let foundBooks = [];
-    if (req.query.title) { // Expects query param: ?title=<title>
-        const titleToSearch = req.query.title;
+    if (sanitized.title) { // Expects query param: ?title=<title>
+        const titleToSearch = sanitized.title;
         if (titleToSearch.length < 3) {
             res.status(400).json({'message': 'Title too short to search by. Mininum 3 characters are required.'});
             return;
         }
         foundBooks = await dbService.findBooksForUserRating(currentUserId, titleToSearch);
     } else if (
-        req.query.verified == 'false' || req.query.username // Expects query params: ?verified=false&username=<username>
+        sanitized.verified == 'false' || sanitized.username // Expects query params: ?verified=false&username=<username>
     ) {
         // Check if user exists
-        const username = req.query.username;
+        const username = sanitized.username;
         const foundUser = await dbService.getUserByUsername(username);
         const doesUserExist = Boolean(foundUser);
         if (!doesUserExist) {
@@ -413,9 +435,10 @@ async (req, res) => {
         return res.status(400).json({ message: "Validation of user input failed" });
     }
 
+    // Sanitization
     const sanitized = matchedData(req);
-
     const searchString = sanitized.search;
+
     const searchResult = await dbService.getBooksByPartialTitleOrAuthor(searchString);
 
     if (searchResult.statusCode === 500) {
@@ -462,10 +485,12 @@ async (req, res) => {
         console.error('Book validation errors: ', errors);
         return res.status(400).json({ message: "Validation of user input failed" });
     }
-    const sanitized = matchedData(req);
 
+    // Sanitization
+    const sanitized = matchedData(req);
     const title = sanitized.title;
     const author = sanitized.author;
+
     await dbService.createBook(title, author, currentUserId);
     res.redirect('/');
 });
