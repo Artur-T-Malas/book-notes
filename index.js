@@ -19,7 +19,6 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// TODO: Create or use middleware which sanitizes inputs
 
 let books = [];
 let highestRatedBooks = [];
@@ -35,7 +34,6 @@ app.get("/", async (req, res) => {
     mostRatedBooks = await dbService.getMostRatedBooks();
     if (isLoggedIn && currentUserId != 0) {
         userUnverifiedBooks = await dbService.getUserUnverifiedBooks(currentUserId);
-        console.log('userUnverifiedBooks: ', userUnverifiedBooks);
         userRatedBooks = await dbService.getUserRatedBooks(currentUserId);
     }
     res.render(
@@ -79,7 +77,6 @@ async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const userResult = await authService.loginUser(username, password);
-    console.log('userResult: ', userResult);
     if (!userResult.success) {
         res.render(
             'login.ejs',
@@ -95,7 +92,6 @@ async (req, res) => {
     currentUser = userResult.username;
     currentUserId = userResult.userId;
     isLoggedIn = true;
-    console.log(currentUserId);
     res.redirect('/');
 });
 
@@ -172,6 +168,7 @@ app.get("/editRating/:id", async (req, res) => {
             isEdit: true,
             ratingId: ratingId,
             bookTitle: book.title,
+            bookId: book.id,
             rating: rating
         }
     );
@@ -208,7 +205,7 @@ app.post("/deleteRating/:id", async (req, res) => {
         return;
     }
 
-    console.log(`Deleting rating ${ratingId}`);
+    console.log(`Deleting rating "${ratingId}" by "${currentUser}"`);
     const result = await dbService.deleteRatingAndNotes(ratingId);
     if (!result.success) {
         if (result.wrongDeletion) {
@@ -221,18 +218,39 @@ app.post("/deleteRating/:id", async (req, res) => {
     res.redirect('/');
 });
 
-app.post("/ratings", async (req, res) => {
+app.post("/ratings",
+[
+    body('ratingId').optional().trim().isNumeric(),
+    body('bookId').trim().isNumeric(),
+    body('isEdit').optional().trim().isBoolean(),
+    body('title').trim().isLength({ max: 100 }).escape().blacklist(`=<>\/\\'";`),
+    body('rating').trim().isNumeric(),
+    body('notes').trim().isLength({ max: 500 }).escape().blacklist(`=<>\/\\'";`)
+],
+async (req, res) => {
     if (!isLoggedIn) {
         res.sendStatus(401);
         return;
     }
-    // TODO: Sanitize input
+
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('Ratings and notes validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of user input failed" });
+    }
+
+    const bookTitle = req.body.title;
+    const bookId = parseInt(req.body.bookId);
+    const rating = parseInt(req.body.rating);
+    const notes = req.body.notes;
+
     if (req.body.isEdit) {
         const ratingId = req.body.ratingId;
         const rating = req.body.rating;
         const notes = req.body.notes;
 
-        // Check if user has access to deleting this rating
+        // Check if user has access to editing this rating
         const userResult = await dbService.getUserFromRatingAndNotes(ratingId);
         if (!userResult.success) {
             if (userResult.statusCode === 500) {
@@ -260,14 +278,18 @@ app.post("/ratings", async (req, res) => {
         res.redirect('/');
         return;
     }
-    const title = req.body.title;
-    const rating = parseInt(req.body.rating);
-    if (rating > 10 || rating < 1) {
-        res.status(400).json({ error: 'Invalid input. Rating must be an integer between 1 and 10 (inclusive).' });
+
+    // Check if the rating doesn't exist yet
+    const existingRatingAndNotes = await dbService.getUserBookNotesByUserAndBookId(currentUserId, bookId);
+    if (existingRatingAndNotes) {
+        res.status(409).json({ message: `Rating of "${bookTitle}" by user Id "${currentUserId}" already exists.` });
         return;
     }
-    const notes = req.body.notes;
-    await dbService.addRatingAndNotes(currentUserId, title, rating, notes);
+    if (rating > 10 || rating < 1) {
+        res.status(400).json({ message: 'Invalid input. Rating must be an integer between 1 and 10 (inclusive).' });
+        return;
+    }
+    await dbService.addRatingAndNotes(currentUserId, bookTitle, rating, notes);
     res.redirect('/');
 });
 

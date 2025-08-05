@@ -55,7 +55,7 @@ For logged in users:
     * [X] Make sure that a person can have only 1 rating per 1 book
     * [ ] Make the ratings and notes fields disabled until a book is chosen
     * [X] Highlight the chosen book
-    * [ ] Show the user an alert/warning if he's trying to rate a book again OR disable this (e.g., not show the book in the list of books to rate)
+    * [X] Disallow adding duplicate ratings and notes by the same user (do not show the book in the list of books to rate)
     * [ ] Show message "Nothing found" if searching didn't find any books
 - [X] add an option to add books to the general database (but not edit nor remove them)
 - [ ] don't allow adding duplicate books
@@ -175,3 +175,6 @@ nodemon index.js
 ## 04.08.2025
 - Rework login, validate and sanitize data on the backend, validate form data in the frontend
 - Rework register, validate and sanitize data on the backend, validate form data in the frontend
+
+## 05.08.2025
+- Add validation, sanitization and duplicate prevention to adding and editing ratings

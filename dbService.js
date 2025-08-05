@@ -269,6 +269,30 @@ export class DbService {
         }
     }
 
+    async getUserBookNotesByUserAndBookId(userId, bookId) {
+        try {
+            const result = await this.db.query(
+                `
+                SELECT * FROM user_book_notes ubn
+                WHERE ubn.user_id = ($1) AND ubn.book_id = ($2);
+                `, [userId, bookId]
+            );
+            const resultCount = result.rows.length;
+            if (resultCount === 0) {
+                return null;
+            }
+            if (resultCount > 1) {
+                console.warn(`There are ${resultCount} ratings for book ID ${bookId} and user ID ${userId}.`);
+                return null;
+            }
+            const userBookNotes = result.rows[0];
+            return userBookNotes;
+        } catch (err) {
+            console.error('Failed getting user book notes from userId and bookId: ', err);
+            return null;
+        }
+    }
+
     async addRatingAndNotes(userId, bookTitle, rating, notes) {
         const dateAdded = new Date().toISOString();
         const dateModified = dateAdded;

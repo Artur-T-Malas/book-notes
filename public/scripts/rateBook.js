@@ -4,7 +4,6 @@ let ratingForm = document.getElementById('rating-form')
 let ratingRange = document.getElementById('book-rating-range');
 let ratingPreview = document.getElementById('rating-preview');
 ratingRange.addEventListener('input', (event) => {
-    console.log('ratingRange.value: ', ratingRange.value);
     ratingPreview.innerText = ratingRange.value;
 });
 let bookFindingPanel = document.getElementById('book-finding-panel');
@@ -25,14 +24,10 @@ function chooseBook(event) {
 
     // TODO: Make the rating and notes fields disabled until a book is chosen
     // TODO: Highlight the chosen book
-    console.log('event: ', event);
     const srcElement = event.srcElement;
-    console.log('srcElement: ', srcElement);
     const btnValue = parseInt(srcElement.value);
     const bookId = btnValue;
-    console.log('btnValue', btnValue, typeof btnValue);
     let book = foundBooks.find((book) => book.id === bookId);
-    console.log('book: ', book);
 
     bookTitleInput.type = 'text';
     bookTitleInput.value = book.title;
@@ -43,9 +38,6 @@ function chooseBook(event) {
 }
 
 function disableSearchBtn(event) {
-    console.log('disableSearchBtn triggered, event: ', event);
-    console.log('value: ', booksSearchInput.value);
-    console.log('value.length: ', booksSearchInput.value.length);
     if (booksSearchInput.value.length <= 2) {
         booksSearchBtn.disabled = true;
     } else {
@@ -67,7 +59,6 @@ async function getBooks(event) {
     params.append("title", titleToSearch);
     const response = await fetch(`${url}?${params}`);
     foundBooks = await response.json();
-    console.log('foundBooks: ', foundBooks);
 
     foundBooksList.replaceChildren();
     

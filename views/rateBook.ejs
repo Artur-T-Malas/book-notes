@@ -16,12 +16,14 @@
     <% } %>
     <div id="book-rating-panel">
         <form id="rating-form" class="rating-form" action="/ratings" method="post">
-            <% if (locals.isEdit && locals.bookTitle && locals.ratingId) { %>
+            <% if (locals.isEdit && locals.bookTitle && locals.ratingId && locals.bookId) { %>
                 <input id="view-only-title" type="text" value="<%= bookTitle %>" readonly>
                 <input type="hidden" name="ratingId" value="<%= ratingId %>">
+                <input type="hidden" name="bookId" id="book-id-input" value="<%= bookId %>">
+            <% } else { %>
+                <input type="hidden" name="bookId" id="book-id-input">
             <% } %>
             <input type="hidden" name="isEdit" value="<%= locals.isEdit %>">
-            <input type="hidden" name="bookId" id="book-id-input">
             <input type="hidden" name="title" id="book-title-input" value="<%= locals.bookTitle %>" readonly>
             <label for="book-rating-range">Rating</label>
 
