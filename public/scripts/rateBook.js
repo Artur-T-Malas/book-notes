@@ -14,7 +14,6 @@ let foundBooksList = document.getElementById('found-books-list');
 
 let foundBooks = [];
 
-
 function chooseBook(event) {
     /*
     This function inputs the book's id

@@ -4,7 +4,7 @@ import pg from "pg";
 import { config } from "./config.js"
 import { DbService } from "./dbService.js";
 import { AuthService } from "./authService.js";
-import { body, validationResult } from "express-validator";
+import { body, query, validationResult } from "express-validator";
 
 const app = express();
 const port = 3000;
@@ -149,11 +149,24 @@ app.get("/rateBook", (req, res) => {
     );
 });
 
-app.get("/editRating/:id", async (req, res) => {
+app.get("/editRating/:id",
+[
+    body('ratingId').trim().exists().isNumeric()
+],
+async (req, res) => {
+
     if (!isLoggedIn) {
         res.sendStatus(401);
         return;
     }
+
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('RatingId validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of user input failed" });
+    }
+
     const ratingId = req.params.id;
     const book = await dbService.getBookByRatingId(ratingId);
     const ratingResult = await dbService.getUserBookNotes(ratingId);
@@ -174,8 +187,20 @@ app.get("/editRating/:id", async (req, res) => {
     );
 });
 
-app.get("/deleteRating/:id", async (req, res) => {
+app.get("/deleteRating/:id", 
+[
+    body('ratingId').trim().exists().isNumeric()
+],    
+async (req, res) => {
     const ratingId = req.params.id;
+
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('RatingId validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of user input failed" });
+    }
+
     const book = await dbService.getBookByRatingId(ratingId);
     res.render(
         'deleteRatingConfirmation.ejs',
@@ -186,7 +211,19 @@ app.get("/deleteRating/:id", async (req, res) => {
     );
 });
 
-app.post("/deleteRating/:id", async (req, res) => {
+app.post("/deleteRating/:id",
+[
+    body('ratingId').trim().exists().isNumeric()
+],
+async (req, res) => {
+
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('RatingId validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of user input failed" });
+    }
+
     const ratingId = req.params.id;
 
     // Check if user has access to deleting this rating
@@ -304,16 +341,34 @@ app.get("/newBook", (req, res) => {
 
 
 // API
-app.get("/books", async (req, res) => {
+app.get("/books",
+[
+    query('title').optional().trim().isLength({ min: 3, max: 100 }).escape().blacklist(`=<>\/\\'";`),
+    query('verified').optional().trim().isBoolean(),
+    query('username').optional().trim().isLength({ min: 3, max: 20 }).isAlphanumeric()
+],
+async (req, res) => {
     console.log('req.query: ', req.query, typeof req.query);
+
+    if (!isLoggedIn) {
+        res.sendStatus(401);
+        return;
+    }
+
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('Books query validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of query failed" });
+    }
+
     if (Object.keys(req.query).length < 1) {
         res.status(403).json({ 'message': 'Retrieving all books is not allowed at this point' });
         return;
     }
-    // TODO: Add validation and sanitization
     let foundBooks = [];
     if (req.query.title) { // Expects query param: ?title=<title>
-        const titleToSearch = req.query.title; // TODO: Add a condition which checks whether query params are present
+        const titleToSearch = req.query.title;
         if (titleToSearch.length < 3) {
             res.status(400).json({'message': 'Title too short to search by. Mininum 3 characters are required.'});
             return;
@@ -339,12 +394,31 @@ app.get("/books", async (req, res) => {
 
         foundBooks = await dbService.getUserUnverifiedBooks(foundUser.id);
 
+    } else {
+        res.status(404).json( {message: `Nothing was found for the provided query.`} );
     }
     res.status(200).json(foundBooks);
 });
 
-app.post("/books", async (req, res) => {
-    // TODO: Validate and sanitize input
+app.post("/books",
+[
+    body('title').trim().isLength({ max: 100 }).escape().blacklist(`=<>\/\\'";`),
+    body('author').trim().isLength({ max: 100 }).escape().blacklist(`=<>\/\\'";`)
+],
+async (req, res) => {
+
+    if (!isLoggedIn) {
+        res.sendStatus(401);
+        return;
+    }
+    
+    // Validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.error('Book validation errors: ', errors);
+        return res.status(400).json({ message: "Validation of user input failed" });
+    }
+
     const title = req.body.title;
     const author = req.body.author;
     await dbService.createBook(title, author, currentUserId);

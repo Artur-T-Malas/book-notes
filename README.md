@@ -3,12 +3,7 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 
 ## TODO
 General
-- [ ] Add data validation and sanitization!
-    - [X] Login
-    - [X] Register
-    - [ ] Add Book
-    - [ ] New Book
-    - [X] Add/edit Book Rating
+- [X] Add data validation and sanitization!
 - [ ] Get book covers and display them
 - [ ] Style the pages
 - [ ] Add a search bar to at least the main page (or all pages)
