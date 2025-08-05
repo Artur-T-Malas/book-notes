@@ -341,7 +341,7 @@ app.get("/newBook", (req, res) => {
 
 
 // API
-app.get("/books",
+app.get("/api/books",
 [
     query('title').optional().trim().isLength({ min: 3, max: 100 }).escape().blacklist(`=<>\/\\'";`),
     query('verified').optional().trim().isBoolean(),

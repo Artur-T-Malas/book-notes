@@ -53,7 +53,7 @@ async function getBooks(event) {
     HTML Input element) as query parameter.
     */
     const titleToSearch = booksSearchInput.value;
-    const url = "/books";
+    const url = "/api/books";
     const params = new URLSearchParams();
     params.append("title", titleToSearch);
     const response = await fetch(`${url}?${params}`);

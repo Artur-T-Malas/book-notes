@@ -15,7 +15,7 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 - [ ] Make the login section and logged/guest user sections into partial views (.ejs) 
     * to get rid of the whole element creation/removal logic from `public/scripts/index.js`
     * to have the login/logout section always visible
-- [ ] Document the `/books` API
+- [ ] Document the `/api/books` API
 - [ ] Have a limit of the queue of unverified books (e.g., 200 total and 10 per user), don't accept more when the limits are reached
 - [ ] add a handler of unmatched rotues and show (enother `.ejs` template) a `404 Not Found` page
 - [X] Add data validation and sanitization!
@@ -28,7 +28,7 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 - [X] Add either ~~breadcrumbs or~~ "back" links/buttons to Login, Register, Add Book and other subpages
 - [X] Make the calls to get login/register pages "GET" requests to /login or /register endpoint. But make the actual login/register requests be "POST" to the same endpoints
 - [X] When failing to log in don't redirect to main page, and show an error instead
-- [X] Refine the `/books` API to be more all-purpose
+- [X] Refine the `/api/books` API to be more all-purpose
 
 ### For all users
 - [ ] When clicking a book, have a notes/rating section
