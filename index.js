@@ -4,7 +4,7 @@ import pg from "pg";
 import { config } from "./config.js"
 import { DbService } from "./dbService.js";
 import { AuthService } from "./authService.js";
-import { body, query, validationResult } from "express-validator";
+import { body, param, query, validationResult } from "express-validator";
 
 const app = express();
 const port = 3000;
@@ -151,7 +151,7 @@ app.get("/rateBook", (req, res) => {
 
 app.get("/editRating/:id",
 [
-    body('ratingId').trim().exists().isNumeric()
+    param('id').trim().exists().isNumeric()
 ],
 async (req, res) => {
 
@@ -189,18 +189,19 @@ async (req, res) => {
 
 app.get("/deleteRating/:id", 
 [
-    body('ratingId').trim().exists().isNumeric()
+    param('id').trim().exists().isNumeric()
 ],    
 async (req, res) => {
-    const ratingId = req.params.id;
-
+    console.log('req.params: ', req.params);
+    
     // Validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.error('RatingId validation errors: ', errors);
         return res.status(400).json({ message: "Validation of user input failed" });
     }
-
+    
+    const ratingId = req.params.id;
     const book = await dbService.getBookByRatingId(ratingId);
     res.render(
         'deleteRatingConfirmation.ejs',
@@ -213,7 +214,7 @@ async (req, res) => {
 
 app.post("/deleteRating/:id",
 [
-    body('ratingId').trim().exists().isNumeric()
+    param('id').trim().exists().isNumeric()
 ],
 async (req, res) => {
 
