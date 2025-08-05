@@ -3,7 +3,6 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 
 ## TODO
 General
-- [X] Add data validation and sanitization!
 - [ ] Get book covers and display them
 - [ ] Style the pages
 - [ ] Add a search bar to at least the main page (or all pages)
@@ -13,12 +12,16 @@ General
     * if there are results generate a new view only with the found books
         - for logged in users -> have a button on each result to rate it IF not yet rated
         - for guests -> simply show the books along with their avg rating and rating count
-- [X] Hide "Add Book" and "Rate Book" buttons for guest users ~~OR redirect to login page~~
-- [X] Invert the logic of hiding buttons - by default show stuff accessible to everyone, and only if user is logged in, show the user-specific stuff
-- [X] Rework login/logout section to use EJS template instead of dynamic changes
 - [ ] Make the login section and logged/guest user sections into partial views (.ejs) 
     * to get rid of the whole element creation/removal logic from `public/scripts/index.js`
     * to have the login/logout section always visible
+- [ ] Document the `/books` API
+- [ ] Have a limit of the queue of unverified books (e.g., 200 total and 10 per user), don't accept more when the limits are reached
+- [ ] add a handler of unmatched rotues and show (enother `.ejs` template) a `404 Not Found` page
+- [X] Add data validation and sanitization!
+- [X] Hide "Add Book" and "Rate Book" buttons for guest users ~~OR redirect to login page~~
+- [X] Invert the logic of hiding buttons - by default show stuff accessible to everyone, and only if user is logged in, show the user-specific stuff
+- [X] Rework login/logout section to use EJS template instead of dynamic changes
 - [X] Add a link/button to Register on the Login page
 - [X] Add a link/button to Login on the Register page
 - [X] Use password type input for passwords
@@ -26,46 +29,43 @@ General
 - [X] Make the calls to get login/register pages "GET" requests to /login or /register endpoint. But make the actual login/register requests be "POST" to the same endpoints
 - [X] When failing to log in don't redirect to main page, and show an error instead
 - [X] Refine the `/books` API to be more all-purpose
-- [ ] Document the `/books` API
-- [ ] Have a limit of the queue of unverified books (e.g., 200 total and 10 per user), don't accept more when the limits are reached
-- [ ] add a handler of unmatched rotues and show (enother `.ejs` template) a `404 Not Found` page
 
 For all users:
-- [X] See a list of highest rated books and their rating (average of all user ratings)
-- [X] See a list of most commonly rated books and their rating (count of all user ratings)
 - [ ] When clicking a book, have a notes/rating section
     * separate `.ejs` template for this usecase
     * access it by:
         - clicking on a book in most commonly rated / highest rated list
         - clicking a result from searching on the main page
     * have it on endpoint like `/books/<bookId>`
+- [X] See a list of highest rated books and their rating (average of all user ratings)
+- [X] See a list of most commonly rated books and their rating (count of all user ratings)
 - [X] Rework adding book ratings to work on `book.id` instead of `book.title`
 
 For logged in users:
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
+    * [ ] Show message "Nothing found" if searching didn't find any books
+    * [ ] Make the ratings and notes fields disabled until a book is chosen
     * [X] The book title ~~should be choosen either from a filtered drop-down, or be typed in an autocomplete field~~ should be first searched and later selected from a list
     * [X] Add notes and ratings
     * [X] Edit
     * [X] Delete
     * [X] Make sure that a person can have only 1 rating per 1 book
-    * [ ] Make the ratings and notes fields disabled until a book is chosen
     * [X] Highlight the chosen book
     * [X] Disallow adding duplicate ratings and notes by the same user (do not show the book in the list of books to rate)
-    * [ ] Show message "Nothing found" if searching didn't find any books
-- [X] add an option to add books to the general database (but not edit nor remove them)
 - [ ] don't allow adding duplicate books
-    * maybe show information about already similar titles
+    * maybe show information about already existing similar titles
+- [ ] Add an option to delete the unverified by book by the user who added it
+- [ ] have a notification section (new table "notifications") when added book get's accepted/denied (delete either when read (have a button) or after X time from it's creation date)
+- [X] add an option to add books to the general database (but not edit nor remove them)
 - [X] automatically add a timestamp when a book is added by the user
 - [X] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
 - [X] have a section with user-added, unverified books (show them until they're accepted by administrator), no ratings/notes should be possible to be added until they're verified
-- [ ] Add an option to delete the unverified by book by the user who added it
-- [ ] have a notification section (new table "notifications") when added book get's accepted/denied (delete either when read (have a button) or after X time from it's creation date)
 
 For admin(s):
-- [X] the books added by users should be marked accordingly (new column "verified" (yes/no) in table?) and be subject to acceptance of administrators
 - [ ] add either a new page or section to view books added by users and accept/deny them
 - [ ] add option to edit and remove books
 - [ ] have a panel to manage users (e.g., delete their accounts, make them admins or take away their admin status)
+- [X] the books added by users should be marked accordingly (new column "verified" (yes/no) in table?) and be subject to acceptance of administrators
 
 ## How to run this project?
 ### Disclaimer
@@ -174,3 +174,4 @@ nodemon index.js
 ## 05.08.2025
 - Add validation, sanitization and duplicate prevention to adding and editing ratings
 - Modified adding of ratings to work on book ID instead of title
+- Add validation and sanitization of all user inputs
