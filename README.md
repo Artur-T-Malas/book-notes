@@ -44,10 +44,12 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 ### For logged in users
 - [ ] De-escape some characters (`';`) when displaying stuff
 - [ ] If going to login from e.g., from the book page, after logging in redirect back to that page (maybe keep it as a query parameter e.g., `redirectTo`)
+- [ ] Add an option to delete the unverified by book by the user who added it
+- [ ] have a notification section (new table "notifications") when added book get's accepted/denied
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
-    * [ ] Modify the `.ejs` template to provide book's ID when rating it from clicking the link on a book page
     * [ ] Show message "Nothing found" if searching didn't find any books
     * [ ] Make the ratings and notes fields disabled until a book is chosen
+    * [X] Modify the `.ejs` template to provide book's ID when rating it from clicking the link on a book page
     * [X] The book title ~~should be choosen either from a filtered drop-down, or be typed in an autocomplete field~~ should be first searched and later selected from a list
     * [X] Add notes and ratings
     * [X] Edit
@@ -55,10 +57,10 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
     * [X] Make sure that a person can have only 1 rating per 1 book
     * [X] Highlight the chosen book
     * [X] Disallow adding duplicate ratings and notes by the same user (do not show the book in the list of books to rate)
-- [ ] don't allow adding duplicate books
-    * maybe show information about already existing similar titles
-- [ ] Add an option to delete the unverified by book by the user who added it
-- [ ] have a notification section (new table "notifications") when added book get's accepted/denied (delete either when read (have a button) or after X time from it's creation date)
+ (delete either when read (have a button) or after X time from it's creation date)
+- [X] don't allow adding duplicate books
+    * [X] don't show them in searching for books to rate
+    * [X] check on the backend if the rating already exists and don't accept it if it does
 - [X] add an option to add books to the general database (but not edit nor remove them)
 - [X] automatically add a timestamp when a book is added by the user
 - [X] Add either a "Cancel" button or "Back to the main page" link to newBook and rateBook pages
@@ -186,3 +188,4 @@ nodemon index.js
 - Create subpages for each book which contain books info and ratings with notes (if they exist)
     * Modified adding ratings and notes to have an option to rate a book directly from it's page
 - Clicking on a book in any section now redirects to that book's subpage
+- README clean-up and update
