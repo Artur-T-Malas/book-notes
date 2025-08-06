@@ -76,6 +76,10 @@ input[type="submit"] {
     font-size: medium;
 }
 
+textarea {
+    resize: none;
+}
+
 .text-success {
     color: #004b01;
 }
@@ -137,6 +141,14 @@ input[type="submit"] {
     display: flex;
 }
 
+.book-finder {
+    margin: 5px;
+    border: 2px solid gray;
+    padding: 5px;
+    border-radius: 5px;
+    width: fit-content;
+}
+
 .hidden {
     visibility: hidden;
 }
@@ -149,4 +161,23 @@ input[type="submit"] {
 #login-panel, #register-panel {
     display: flex;
     flex-direction: column;
+}
+
+.rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 40vw;
+}
+
+.rating-row-textarea {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 40vw;
+}
+
+.rating-input {
+    display: flex;
+    justify-content: flex-end;
 }

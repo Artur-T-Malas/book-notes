@@ -192,3 +192,4 @@ nodemon index.js
 
 ## 06.08.2025
 - Fix deletion of ratings (modify query getting user rated books to return both rating Id and book Id)
+- Rework and style the book rating page

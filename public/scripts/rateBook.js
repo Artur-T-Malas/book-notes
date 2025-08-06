@@ -6,6 +6,9 @@ let ratingPreview = document.getElementById('rating-preview');
 ratingRange.addEventListener('input', (event) => {
     ratingPreview.innerText = ratingRange.value;
 });
+let notesInput = document.getElementById('notes');
+let submitRatingBtn = document.getElementById('submit-rating-btn');
+
 let bookFindingPanel = document.getElementById('book-finding-panel');
 let booksSearchInput = document.getElementById('book-search-title-input');
 booksSearchInput.addEventListener('input', disableSearchBtn);
@@ -31,6 +34,10 @@ function chooseBook(event) {
     bookTitleInput.type = 'text';
     bookTitleInput.value = book.title;
     bookIdInput.value = book.id;
+
+    ratingRange.disabled = false;
+    notesInput.disabled = false;
+    submitRatingBtn.disabled = false;
 
     booksSearchInput.value = ''; // Clear the search box
     foundBooksList.replaceChildren(); // Clear the list of found books
