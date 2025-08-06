@@ -240,7 +240,6 @@ async (req, res) => {
     // Sanitization
     const sanitized = matchedData(req);
     const ratingId = sanitized.id;
-    
     const book = await dbService.getBookByRatingId(ratingId);
     res.render(
         'deleteRatingConfirmation.ejs',

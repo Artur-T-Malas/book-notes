@@ -189,3 +189,6 @@ nodemon index.js
     * Modified adding ratings and notes to have an option to rate a book directly from it's page
 - Clicking on a book in any section now redirects to that book's subpage
 - README clean-up and update
+
+## 06.08.2025
+- Fix deletion of ratings (modify query getting user rated books to return both rating Id and book Id)

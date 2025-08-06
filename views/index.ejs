@@ -53,11 +53,11 @@
                                 <div class="rating-card-top-bar">
                                     <h3><a href="/books/<%= ratedBook.id %>"><%= ratedBook.title %></a></h3>
                                     <div class="btn-panel">
-                                        <form action="/editRating/<%= ratedBook.id %>" method="get">
-                                            <button type="submit" id="edit-rating-<%= ratedBook.id %>" value="<%= ratedBook.id %>" class="edit-rating-btn button-secondary">Edit</button>
+                                        <form action="/editRating/<%= ratedBook.rating_id %>" method="get">
+                                            <button type="submit" id="edit-rating-<%= ratedBook.rating_id %>" value="<%= ratedBook.id %>" class="edit-rating-btn button-secondary">Edit</button>
                                         </form>
-                                        <form action="/deleteRating/<%= ratedBook.id %>" method="get">
-                                            <button type="submit" id="delete-rating-<%= ratedBook.id %>" value="<%= ratedBook.id %>" class="delete-rating-btn button-danger">Delete</button>
+                                        <form action="/deleteRating/<%= ratedBook.rating_id %>" method="get">
+                                            <button type="submit" id="delete-rating-<%= ratedBook.rating_id %>" value="<%= ratedBook.id %>" class="delete-rating-btn button-danger">Delete</button>
                                         </form>
                                     </div>
                                 </div>
