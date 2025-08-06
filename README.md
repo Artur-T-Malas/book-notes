@@ -6,15 +6,15 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 - [ ] Get book covers and display them
 - [ ] Style the pages
 - [ ] Add a search bar to at least the main page (or all pages)
-    * if there are no results:
-        - for logged in users -> show the option to add a book
-        - for guests -> show a message with login link e.g., "login/register to add the missing book"
-    * if there are results generate a new view only with the found books
-        - for logged in users -> have a button on each result to rate it IF not yet rated
-        - for guests -> simply show the books along with their avg rating and rating count
-- [ ] Make the login section and logged/guest user sections into partial views (.ejs) 
-    * to get rid of the whole element creation/removal logic from `public/scripts/index.js`
-    * to have the login/logout section always visible
+    * [ ] if there are no results:
+        - [ ] for logged in users -> show the option to add a book
+        - [ ] for guests -> show a message with login link e.g., "login/register to add the missing book"
+    * [X] if there are results generate a new view only with the found books
+- [ ] Make the login section and logged/guest user sections into partial views (.ejs)
+    * [ ] modify `index.ejs` to include the `partials/nav.ejs`
+    * [ ] to have the login/logout section always visible
+    * [X] make the logic section into partial view (`partials/nav.ejs`)
+    * [X] get rid of the whole element creation/removal logic from `public/scripts/index.js`
 - [ ] Document the `/api/books` API
 - [ ] Have a limit of the queue of unverified books (e.g., 200 total and 10 per user), don't accept more when the limits are reached
 - [ ] add a handler of unmatched rotues and show (enother `.ejs` template) a `404 Not Found` page
@@ -42,8 +42,8 @@ This repository holds **my** solution for a **Capstone Project** from dr. Angela
 - [X] Rework adding book ratings to work on `book.id` instead of `book.title`
 
 ### For logged in users
-- [ ] De-escape some characters (`';`) when displaying stuff
-- [ ] If going to login from e.g., from the book page, after logging in redirect back to that page (maybe keep it as a query parameter e.g., `redirectTo`)
+- [ ] De-escape some characters (`';`) when displaying stuff (e.g. when displaying notes)
+- [ ] If going to login from e.g., from the book page, after logging in redirect back to that page (maybe keep it as a query parameter or header e.g., `redirectTo`)
 - [ ] Add an option to delete the unverified by book by the user who added it
 - [ ] have a notification section (new table "notifications") when added book get's accepted/denied
 - [ ] add an option to add, edit and remove notes and ratings to books (only verified)
